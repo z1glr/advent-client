@@ -13,10 +13,10 @@ import Button from "./Button.vue";
 	}
 
 	async function logout() {
-		const data = await api_call<User>("GET", "logout");
+		const res = await api_call<User>("GET", "logout");
 
-		if (data !== false) {
-			Global.user.value = data;
+		if (res.ok) {
+			Global.user.value = res.data;
 			Global.state.value = State.Login;
 		}
 	}
@@ -25,10 +25,11 @@ import Button from "./Button.vue";
 <template>
 	<div id="header">
 			<!-- Impressum -->
+			<!-- Datenverarbeitung -->
 			<!-- About -->
 			<DropdownMenu>
 				<Button v-if="Global.user.value.admin">
-					Admin
+					Navigation
 				</Button>
 				<template #dropdown>
 					<Button
@@ -40,6 +41,8 @@ import Button from "./Button.vue";
 					</Button>
 				</template>
 			</DropdownMenu>
+			<Button @click="Global.state.value = State.Datenschutz">Datenschutz</Button>
+			<Button @click="Global.state.value = State.Impressum">Impressum</Button>
 			<Button v-if="Global.state.value > State.Login"@click="logout">Logout</Button>
 		</div>
 </template>

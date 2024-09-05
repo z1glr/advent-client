@@ -6,32 +6,23 @@
 	import Button from "@/components/Button.vue";
 	import BaseSlider from "../BaseSlider.vue";
 
-	import Global, { type User } from "@/Global";
-	import { api_call } from "@/Lib";
+	import { type User } from "@/Global";
+	import { api_call, HTTPStatus } from "@/Lib";
 
 	type PasswordUser = User & { password: string; };
 
 	const users = ref<(PasswordUser)[]>([]);
 	const add_user_name = ref<string>("");
 	const add_user_password = ref<string>("");
+	const user_exists_error = ref<boolean>(false);
 
 	onMounted(async () => {
 		create_password();
 
-		const url = Global.api + "/users";
+		const response = await api_call<User[]>("GET", "users");
 
-		try {
-			const response = await fetch(url);
-
-			if (!response.ok) {
-				throw new Error(`Response status: ${response.status}`);
-			}
-
-			store_users(await response.json());
-		} catch (error) {
-			if (error instanceof Error) {
-				console.error(error.message);
-			}
+		if (response.ok) {
+			store_users(response.data);
 		}
 	});
 
@@ -41,38 +32,43 @@
 		const password = password_number.slice(0, 4) + "-" + password_number.slice(4);
 
 		add_user_password.value = password;
+		add_user_name.value = "";
 	}
 
 	async function add_user(user: string = add_user_name.value, password: string = add_user_password.value) {
-		console.debug(user, password);
-		
 		if (user.length > 0 && password.length > 0) {
-			const data = await api_call<User[]>("POST", "user", undefined, { user, password });
+			const response = await api_call<User[]>("POST", "user", undefined, { user, password });
 
-			if (!!data) {
+			if (response.ok) {
 				create_password();
+				
+				store_users(response.data);
 
-				store_users(data);
+				user_exists_error.value = false;
+			} else {
+				if (response.status === HTTPStatus.Conflict) {
+					user_exists_error.value = true;
+				}
 			}
 		}
 	}
 
 	async function modify_user(user: PasswordUser) {
 		if (window.confirm(`Modify user '${user.name}'?`)) {
-			const data = await api_call<User[]>("POST", "user/modify", { uid: user.uid }, { password: user.password, admin: user.admin });
+			const response = await api_call<User[]>("POST", "user/modify", { uid: user.uid }, { password: user.password, admin: user.admin });
 
-			if (!!data) {
-				store_users(data);
+			if (response.ok) {
+				store_users(response.data);
 			}
 		}
 	}
 
 	async function delete_user(user: PasswordUser) {
 		if (window.confirm(`Delete user '${user.name}'?`)) {
-			const data = await api_call<User[]>("DELETE", "user", { uid: user.uid });
+			const response = await api_call<User[]>("DELETE", "user", { uid: user.uid });
 			
-			if (!!data) {
-				store_users(data);
+			if (response.ok) {
+				store_users(response.data);
 			}
 		}
 	}
@@ -87,16 +83,19 @@
 		<h1>
 			Users
 		</h1>
-		<div id="add_user">
-			<input v-model="add_user_name" placeholder="username" @keydown.enter="add_user()" />
-			<input v-model="add_user_password" placeholder="password" @keydown.enter="add_user()" />
-			<Button @click="add_user()">add</Button>
+		<div id="add-user">
+			<div id="user-exists-error" v-if="user_exists_error">User with same username already exists</div>
+			<div id="add-user-inputs">
+				<input v-model="add_user_name" placeholder="username" @keydown.enter="add_user()" />
+				<input v-model="add_user_password" placeholder="password" @keydown.enter="add_user()" />
+				<Button @click="add_user()">add</Button>
+			</div>
 		</div>
 		<table id=users>
 			<tr class="header">
 				<th>UID</th>
 				<th>Name</th>
-				<th>New password</th>
+				<th>password</th>
 				<th>Admin</th>
 				<th>Submit</th>
 				<th>Delete</th>
@@ -104,7 +103,7 @@
 			<tr class="content" v-for="user of users">
 				<th>{{ user.uid }}</th>
 				<th>{{ user.name }}</th>
-				<th><div class="cell"><input type="text" v-model="user.password" placeholder="password" /></div></th>
+				<th><div class="cell"><input type="text" v-model="user.password" placeholder="new password" /></div></th>
 				<th><div class="cell"><BaseSlider class="slider" :disabled='user.name === "admin"' v-model="user.admin" /></div></th>
 				<th><div class="cell"><Button class="button" @click="modify_user(user)"><FontAwesomeIcon :icon="faFloppyDisk" /></Button></div></th>
 				<th><div class="cell"><Button class="button" @click="delete_user(user)"><FontAwesomeIcon :icon="faTrash" /></Button></div></th>
@@ -125,15 +124,25 @@
 		gap: 0.25em;
 	}
 
-	#add_user {
+	#add-user {
 		display: flex;
+		flex-direction: column;
 
 		gap: 0.25em;
 
 		font-size: 1em;
 	}
 
-	#add_user > input {
+	#user-exists-error {
+		color: red;
+	}
+
+	#add-user-inputs {
+		display: flex;
+		gap: 0.25em;
+	}
+
+	#add-user-inputs > input {
 		font-size: inherit;
 	}
 

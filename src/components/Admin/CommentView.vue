@@ -12,10 +12,10 @@
 	});
 	
 	async function get_comments() {
-		const res = await api_call<Comment[]>("GET", "comments");
+		const response = await api_call<Comment[]>("GET", "comments");
 	
-		if (res !== false) {
-			comments.value = res;
+		if (response.ok) {
+			comments.value = response.data;
 		}
 	}
 </script>

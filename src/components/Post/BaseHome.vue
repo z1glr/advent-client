@@ -1,41 +1,63 @@
 <script setup lang="ts">
-	import { ref } from 'vue';
+	import { onBeforeMount, ref } from 'vue';
 	import Post from './BasePost.vue';
+import { api_call, create_lcg_random } from '@/Lib';
 
-	const active_day = ref<{ value: number; date: string; }>();
+	interface Door { value: number; date: string; enabled: boolean; }
+	const active_day = ref<Door>();
+	const doors = ref<Door[]>();
 
-	const doors = [
-		{ value: 4, date: "2024-12-04" },
-		{ value: 24, date: "2024-12-24" },
-		{ value: 2, date: "2024-12-02" },
-		{ value: 16, date: "2024-12-16" },
-		{ value: 6, date: "2024-12-06" },
-		{ value: 21, date: "2024-12-21" },
-		{ value: 15, date: "2024-12-15" },
-		{ value: 1, date: "2024-12-01" },
-		{ value: 13, date: "2024-12-13" },
-		{ value: 18, date: "2024-12-18" },
-		{ value: 8, date: "2024-12-08" },
-		{ value: 7, date: "2024-12-07" },
-		{ value: 19, date: "2024-12-19" },
-		{ value: 12, date: "2024-12-12" },
-		{ value: 9, date: "2024-12-09" },
-		{ value: 10, date: "2024-12-10" },
-		{ value: 17, date: "2024-12-17" },
-		{ value: 3, date: "2024-12-03" },
-		{ value: 11, date: "2024-12-11" },
-		{ value: 22, date: "2024-12-22" },
-		{ value: 20, date: "2024-12-20" },
-		{ value: 14, date: "2024-12-14" },
-		{ value: 5, date: "2024-12-05" },
-		{ value: 23, date: "2024-12-23" }
-	];
+	onBeforeMount(async () => {
+		const response = await api_call<{ start: string; days: number; }>("GET", "posts/config");
+
+		if (response.ok) {
+			const days = Array.from(Array(response.data.days).keys());
+
+			// shuffle the elements
+			const lcg_random = create_lcg_random(17)
+			for (var i = days.length - 1; i >= 0; i--) {
+				var j = Math.floor(lcg_random() * (i + 1));
+				var temp = days[i];
+				days[i] = days[j];
+				days[j] = temp;
+			}
+
+			const today = new Date();
+			const start_date = new Date(response.data.start);
+
+			function format_date(dt: Date): string {
+				return [
+					dt.getFullYear().toString(),
+					(dt.getMonth() + 1).toString().padStart(2, "0"),
+					dt.getDate().toString().padStart(2, "0")
+				].join("-");
+			}
+
+			doors.value = days.map((day) => {
+				const this_date = new Date(start_date.valueOf());
+				this_date.setDate(this_date.getDate() + day);
+
+				return {
+					value: day + 1,
+					date: format_date(this_date),
+					enabled: today >= this_date
+				};
+			});
+		}
+	});
+
+
+	function select_door(door: Door) {
+		if (active_day.value?.date !== door.date && door.enabled) {
+			active_day.value = door;
+		}
+	}
 </script>
 
 <template>
 	<div id="container">
 		<div id="day_selection">
-			<div v-for="door of doors" class="door" :class="{ selected: door.value === active_day?.value }" @click="active_day = active_day?.value === door.value ? undefined : door">
+			<div v-for="door of doors" class="door" :class="{ selected: door.value === active_day?.value, enabled: door.enabled }" @click="select_door(door)">
 				{{ door.value }}
 			</div>
 		</div>
@@ -73,10 +95,14 @@
 		background-color: red;
 		color: white;
 
-		cursor: pointer;
+		cursor: not-allowed;
 	}
 
 	.door.selected {
 		background-color: green;
+	}
+
+	.door.enabled {
+		cursor: pointer;
 	}
 </style>

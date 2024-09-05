@@ -13,21 +13,21 @@
 	}>();
 
 	async function add_answer(cid: number, answer: string) {
-		const res = await api_call<Comment>("POST", "comment/answer", { cid }, { answer });
+		const response = await api_call<Comment>("POST", "comment/answer", { cid }, { answer });
 
-		if (res !== false) {
-			emit("answer", res);
+		if (response.ok) {
+			emit("answer", response.data);
 		}
 	}
 
 	async function delete_comment(cid: number) {
 		if (window.confirm("Do you really want to delete this comment?")) {
-			const res = await api_call<Post>("DELETE", "comment", {
+			const response = await api_call<Post>("DELETE", "comment", {
 				cid,
 				pid: props.pid
 			});
 
-			if (res !== false) {
+			if (response.ok) {
 				emit("delete");
 			}
 		}

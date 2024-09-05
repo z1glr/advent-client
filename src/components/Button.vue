@@ -5,11 +5,15 @@
 </script>
 
 <template>
-	<span class="button" :class="{ active }"><slot></slot></span>
+	<span class="button" :class="{ active }"><div><slot></slot></div></span>
 </template>
 
 <style scoped>
 	.button {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+
 		background-color: lightgray;
 
 		padding-inline: 0.25em;

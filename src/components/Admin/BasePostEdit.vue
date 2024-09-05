@@ -19,13 +19,13 @@
 	});
 
 	async function save_post() {
-		const data = await api_call("POST", "post", { pid: post.value.pid }, {
+		const response = await api_call("POST", "post", { pid: post.value.pid }, {
 			title: post.value.title,
 			text: post.value.content,
 			date: post.value.date
 		});
 
-		if (data !== false) {
+		if (response.ok) {
 			unsaved_changes.value = false;
 		}
 	}
@@ -60,6 +60,10 @@
 		display: flex;
 		flex-direction: column;
 		gap: 0.25em;
+
+		flex: 1;
+
+		overflow: clip;
 	}
 
 	#title {
@@ -77,33 +81,55 @@
 	}
 
 	#content {
-		width: 100%;
-
 		display: flex;
+		flex: 1;
 
-		display: grid;
-		grid-template-columns: repeat(2, 50%);
+		position: relative;
 	}
 
 	#content > * {
-		height: 100%;
+		position: absolute;
+		
+		top: 0;
+		bottom: 0;
+
+		height: unset;
+		width: unset;
 	}
 
 	#editor {
-		font-size: 0.75em;
+		left: 0;
+		right: 50%;
 	}
 
 	#preview {
+		left: 50%;
+		right: 0;
+
+		display: block;
+
 		padding: 1em;
 
-		overflow: clip;
+		overflow-y: scroll;
+		overflow-x: hidden;
 
 		font-size: 0.75em;
+	}
+
+	#preview:deep(code) {
+		text-wrap: wrap;
+		overflow-wrap: anywhere;
 	}
 
 	@media screen and (max-width: 66em) {
 		#content {
 			display: block;
+			overflow: unset;
+			position: unset;
+		}
+
+		#content > * {
+			position: unset;
 		}
 	}
 </style>

@@ -6,6 +6,9 @@
 
 	import Global, { type Comment, type Post } from '@/Global';
 	import { api_call } from '@/Lib';
+import Button from '../Button.vue';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
 	const props = defineProps<{
 		pid: number;
@@ -20,29 +23,29 @@
 	});
 
 	async function get_post() {
-		const data = await api_call<Post>("GET", "posts", { pid: props.pid });
+		const response = await api_call<Post>("GET", "posts", { pid: props.pid });
 
-		if (data !== false) {
-			content.value = data;
+		if (response.ok) {
+			content.value = response.data;
 		}
 	}
 
 	async function get_comments() {
-		const data = await api_call<Comment[]>("GET", "comments", { pid: props.pid });
+		const response = await api_call<Comment[]>("GET", "comments", { pid: props.pid });
 
-		if (data !== false) {
-			comments.value = data;
+		if (response.ok) {
+			comments.value = response.data;
 		}
 	}
 
 	async function send_comment() {
 		if (comment_input_text.value.length > 0 && !!content.value) {
-			const data = await api_call<Comment[]>("POST", "comment", { pid: content.value.pid }, {
+			const response = await api_call<Comment[]>("POST", "comment", { pid: content.value.pid }, {
 				text: comment_input_text.value
 			});
 
-			if (data !== false) {
-				comments.value = data;
+			if (response.ok) {
+				comments.value = response.data;
 				
 				comment_input_text.value = "";
 			}
@@ -57,7 +60,7 @@
 		<h2>Fragen</h2>
 		<div id="comment-input" v-show="!comments.some(comment => comment.uid === Global.user.value.uid)">
 			<textarea v-model="comment_input_text" placeholder="Frage einsenden" />
-			<input type="button" value="Senden" @click="send_comment" />
+			<Button @click="send_comment"><FontAwesomeIcon :icon="faPaperPlane" /> Senden</Button>
 		</div>
 		<div id="comments">
 			<BaseComment
@@ -83,6 +86,7 @@
 
 	#comment-input {
 		display: flex;
+		gap: 0.25em;
 
 		flex-direction: row;
 	}
@@ -91,8 +95,10 @@
 		flex: 1;
 
 		font-family: Signika;
+		font-size: inherit;
 
 		resize: vertical;
+
 	}
 
 	#comments {

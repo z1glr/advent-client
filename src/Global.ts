@@ -2,6 +2,8 @@ import { ref } from "vue";
 
 export enum State {
 	INIT,
+	Datenschutz,
+	Impressum,
 	Login,
 	Home,
 	Posts,

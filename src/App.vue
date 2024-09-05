@@ -1,50 +1,31 @@
 <script setup lang="ts">
 	/*	# TODO
-	 *	- Impressum
 	 *	- FAQ / About-Seite, inklusive Cookie-Hinweis (nur technisch notwendige)
-	 *	- Error-Messages after failed login etc.
 	 */	
 
-	import { onMounted, ref } from "vue";
+	import { onMounted } from "vue";
 
 	import ManageUsers from './components/Admin/ManageUsers.vue';
 	import CommentView from './components/Admin/CommentView.vue';
 	import BaseHome from './components/Post/BaseHome.vue';
-	import Login from './Login.vue';
+	import Login from './components/Login.vue';
 	import ViewPost from "./components/Admin/ViewPost.vue";
 	import BaseHeader from "./components/BaseHeader.vue";
+	import BaseMarkdown from "./components/BaseMarkdown.vue";
 
-	import Global, { State } from '@/Global';
+	import Global, { State, type User } from '@/Global';
+	import { api_call } from "./Lib";
 
 	onMounted(async () => {
-		const url = Global.api + "/welcome";
+		const res = await api_call<User>("GET", "welcome");
 
-		try {
-			const response = await fetch(url, {
-				method: "GET",
-				headers: {
-					"Content-Type": "application/json; charset=UTF-8"
-
-				},
-				credentials: 'include'
-			});
-
-			if (!response.ok) {
-				throw new Error(`Response status: ${response.status}`);
-			}
-
-			Global.user.value = await response.json();
+		if (res.ok) {
+			Global.user.value = res.data;
 
 			if (Global.user.value.loggedIn) {
 				Global.state.value = State.Home;
 			} else {
 				Global.state.value = State.Login;
-			}
-		} catch (error) {
-			if (error instanceof Error) {
-				console.error(error.message);
-			} else {
-				console.error("unknown error");
 			}
 		}
 	});
@@ -59,6 +40,8 @@
 		<ViewPost v-else-if="Global.state.value === State.Posts" />
 		<CommentView v-else-if="Global.state.value === State.Comments" />
 		<ManageUsers v-else-if="Global.state.value === State.Users" />
+		<BaseMarkdown v-else-if="Global.state.value === State.Datenschutz" url="/legal/Datenschutz.md" />
+		<BaseMarkdown v-else-if="Global.state.value === State.Impressum" url="/legal/Impressum.md" />
 	</div>
 </template>
 

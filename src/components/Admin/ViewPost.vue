@@ -20,10 +20,10 @@
 	});
 	
 	async function get_posts() {
-		const res = await api_call<Post[]>("GET", "posts");
+		const response = await api_call<Post[]>("GET", "posts");
 	
-		if (res !== false) {
-			posts.value = res;
+		if (response.ok) {
+			posts.value = response.data;
 		}
 	}
 </script>
