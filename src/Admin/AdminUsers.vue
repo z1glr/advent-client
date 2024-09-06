@@ -229,10 +229,5 @@
 
 	.content .button {
 		background-color: transparent;
-		color: var(--color-off);
-	}
-
-	.content .button:hover {
-		color: var(--color-off-hover);
 	}
 </style>

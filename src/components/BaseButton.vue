@@ -39,7 +39,7 @@
 		background-color: black;
 	}
 
-	#wrapper.disabled {
+	.button.disabled {
 		filter: opacity(50%);
 	}
 
