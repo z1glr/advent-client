@@ -27,10 +27,9 @@ export interface Comment {
 }
 
 export interface User {
-	name: string;
 	uid: number;
 	admin: boolean;
-	loggedIn: boolean;
+	logged_in: boolean;
 }
 
 export interface Login extends User {
@@ -38,7 +37,7 @@ export interface Login extends User {
 }
 
 class Globals {
-	user = ref<User>({ uid: 0, name: "", admin: false, loggedIn: false });
+	user = ref<User>({ uid: 0, admin: false, logged_in: false });
 	api: string = window.origin + "/api";
 	state = ref<State>(State.INIT);
 }

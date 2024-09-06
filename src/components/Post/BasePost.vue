@@ -19,7 +19,10 @@ import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 	const comment_input_text = ref<string>("");
 
 	onMounted(async () => {
-		await Promise.allSettled([get_post(), get_comments()]);
+		await Promise.allSettled([
+			get_post(),
+			get_comments()
+		]);
 	});
 
 	async function get_post() {

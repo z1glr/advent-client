@@ -18,7 +18,7 @@ import { faRightToBracket } from '@fortawesome/free-solid-svg-icons';
 			wrong_password.value = false;
 
 			Global.user.value = response.data;
-			if (response.data.loggedIn) {
+			if (response.data.logged_in) {
 				Global.state.value = State.Home;
 			}
 		} else {

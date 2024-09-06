@@ -86,7 +86,9 @@ export async function api_call<K extends object>(method: string, api: string,  p
 
 	// if the error-code is 401 = unauthorized, go back to the login-view
 	if (response.status === HTTPStatus.Unauthorized) {
-		Global.state.value = State.Login;
+		if (Global.user.value.logged_in) {
+			location.reload();
+		}
 	}
 
 	const content_type = response.headers.get("content-type");

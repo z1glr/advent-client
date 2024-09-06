@@ -22,7 +22,7 @@
 		if (res.ok) {
 			Global.user.value = res.data;
 
-			if (Global.user.value.loggedIn) {
+			if (Global.user.value.logged_in) {
 				Global.state.value = State.Home;
 			} else {
 				Global.state.value = State.Login;
