@@ -1,13 +1,16 @@
 <script setup lang="ts">
 	defineProps<{
 		active?: boolean;
+		disabled?: boolean;
 	}>();
 </script>
 
 <template>
-	<span class="button" :class="{ active }"
-		><div><slot></slot></div
-	></span>
+	<span class="button" :class="{ active, disabled }">
+		<div>
+			<slot></slot>
+		</div>
+	</span>
 </template>
 
 <style scoped>
@@ -22,18 +25,25 @@
 
 		border-radius: 0.25em;
 
-		cursor: pointer;
 		user-select: none;
 
 		transition: filter 0.2s ease;
 	}
 
-	.button:hover {
-		filter: brightness(85%);
+	.button:not(.disabled) {
+		cursor: pointer;
 	}
 
 	.button.active {
 		color: white;
 		background-color: black;
+	}
+
+	#wrapper.disabled {
+		filter: opacity(50%);
+	}
+
+	.button:not(.disabled):hover {
+		filter: brightness(85%);
 	}
 </style>

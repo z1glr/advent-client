@@ -77,11 +77,13 @@
 	}
 
 	async function delete_user(user: PasswordUser) {
-		if (window.confirm(`Delete user '${user.name}'?`)) {
-			const response = await api_call<User[]>("DELETE", "user", { uid: user.uid });
+		if (!(user.name === "admin" || user.uid === Global.user.value?.uid)) {
+			if (window.confirm(`Delete user '${user.name}'?`)) {
+				const response = await api_call<User[]>("DELETE", "user", { uid: user.uid });
 
-			if (response.ok) {
-				store_users(response.data);
+				if (response.ok) {
+					store_users(response.data);
+				}
 			}
 		}
 	}
@@ -141,7 +143,10 @@
 				</th>
 				<th>
 					<div class="cell">
-						<BaseButton class="button" @click="delete_user(user)"
+						<BaseButton
+							class="button"
+							:disabled="user.name === 'admin' || user.uid === Global.user.value?.uid"
+							@click="delete_user(user)"
 							><FontAwesomeIcon :icon="faTrash"
 						/></BaseButton>
 					</div>
@@ -153,8 +158,6 @@
 
 <style scoped>
 	#container {
-		/* width: 100%; */
-
 		display: flex;
 		flex-direction: column;
 
