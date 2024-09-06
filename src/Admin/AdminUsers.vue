@@ -6,6 +6,7 @@
 	import BaseButton from "@/components/BaseButton.vue";
 	import BaseSlider from "@/components/BaseSlider.vue";
 
+	import Global from "@/Global";
 	import { api_call, HTTPStatus } from "@/Lib";
 
 	interface User {
@@ -124,7 +125,11 @@
 				</th>
 				<th>
 					<div class="cell">
-						<BaseSlider class="slider" :disabled="user.name === 'admin'" v-model="user.admin" />
+						<BaseSlider
+							class="slider"
+							:disabled="user.name === 'admin' || user.uid === Global.user.value?.uid"
+							v-model="user.admin"
+						/>
 					</div>
 				</th>
 				<th>
