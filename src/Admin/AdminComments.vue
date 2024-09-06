@@ -1,23 +1,23 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+	import { onMounted, ref } from "vue";
 
-import { api_call } from "@/Lib";
-import { type Comment } from "@/Global";
-import BaseComment from "@/components/Post/BaseComment.vue";
+	import { api_call } from "@/Lib";
+	import { type Comment } from "@/Global";
+	import BaseComment from "@/components/Post/BaseComment.vue";
 
-const comments = ref<Comment[]>([]);
+	const comments = ref<Comment[]>([]);
 
-onMounted(async () => {
-	await get_comments();
-});
+	onMounted(async () => {
+		await get_comments();
+	});
 
-async function get_comments() {
-	const response = await api_call<Comment[]>("GET", "comments");
+	async function get_comments() {
+		const response = await api_call<Comment[]>("GET", "comments");
 
-	if (response.ok) {
-		comments.value = response.data;
+		if (response.ok) {
+			comments.value = response.data;
+		}
 	}
-}
 </script>
 
 <template>

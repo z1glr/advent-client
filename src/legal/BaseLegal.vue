@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { inject } from "vue";
+	import { inject } from "vue";
 
-import AppLayout from "@/components/AppLayout/AppLayout.vue";
-import BaseMarkdown from "@/components/BaseMarkdown.vue";
+	import AppLayout from "@/components/AppLayout/AppLayout.vue";
+	import BaseMarkdown from "@/components/BaseMarkdown.vue";
 
-const content_url = inject("content");
+	const content_url = inject("content");
 </script>
 
 <template>

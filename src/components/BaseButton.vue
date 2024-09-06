@@ -1,7 +1,7 @@
 <script setup lang="ts">
-defineProps<{
-	active?: boolean;
-}>();
+	defineProps<{
+		active?: boolean;
+	}>();
 </script>
 
 <template>
@@ -11,29 +11,29 @@ defineProps<{
 </template>
 
 <style scoped>
-.button {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
+	.button {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
 
-	background-color: lightgray;
+		background-color: lightgray;
 
-	padding-inline: 0.25em;
+		padding-inline: 0.25em;
 
-	border-radius: 0.25em;
+		border-radius: 0.25em;
 
-	cursor: pointer;
-	user-select: none;
+		cursor: pointer;
+		user-select: none;
 
-	transition: filter 0.2s ease;
-}
+		transition: filter 0.2s ease;
+	}
 
-.button:hover {
-	filter: brightness(85%);
-}
+	.button:hover {
+		filter: brightness(85%);
+	}
 
-.button.active {
-	color: white;
-	background-color: black;
-}
+	.button.active {
+		color: white;
+		background-color: black;
+	}
 </style>

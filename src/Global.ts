@@ -3,7 +3,6 @@ import { api_call } from "./Lib";
 
 export interface Post {
 	pid: number;
-	title: string;
 	content: string;
 	date: string;
 }
@@ -30,6 +29,7 @@ class Globals {
 	user = ref<User>({ uid: 0, admin: false, logged_in: false });
 }
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 const Global = new Globals();
 
 // initialize the sesison-state

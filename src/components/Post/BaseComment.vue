@@ -1,55 +1,55 @@
 <script setup lang="ts">
-import Global, { type Comment, type Post } from "@/Global";
-import { api_call } from "@/Lib";
-import { ref, watch } from "vue";
+	import Global, { type Comment, type Post } from "@/Global";
+	import { api_call } from "@/Lib";
+	import { ref, watch } from "vue";
 
-const props = defineProps<{
-	comment: Comment;
-	pid: number;
-}>();
+	const props = defineProps<{
+		comment: Comment;
+		pid: number;
+	}>();
 
-const emit = defineEmits<{
-	answer: [comment: Comment];
-	delete: [];
-}>();
+	const emit = defineEmits<{
+		answer: [comment: Comment];
+		delete: [];
+	}>();
 
-const answer_user_input = ref<string>("");
+	const answer_user_input = ref<string>("");
 
-watch(
-	() => props.comment.answer,
-	() => {
-		if (props.comment.answer !== undefined) {
-			answer_user_input.value = props.comment.answer;
-		}
-	},
-	{ immediate: true }
-);
-
-async function add_answer(cid: number) {
-	const response = await api_call<Comment>(
-		"POST",
-		"comment/answer",
-		{ cid },
-		{ answer: answer_user_input.value }
+	watch(
+		() => props.comment.answer,
+		() => {
+			if (props.comment.answer !== undefined) {
+				answer_user_input.value = props.comment.answer;
+			}
+		},
+		{ immediate: true }
 	);
 
-	if (response.ok) {
-		emit("answer", response.data);
-	}
-}
-
-async function delete_comment(cid: number) {
-	if (window.confirm("Do you really want to delete this comment?")) {
-		const response = await api_call<Post>("DELETE", "comment", {
-			cid,
-			pid: props.pid
-		});
+	async function add_answer(cid: number) {
+		const response = await api_call<Comment>(
+			"POST",
+			"comment/answer",
+			{ cid },
+			{ answer: answer_user_input.value }
+		);
 
 		if (response.ok) {
-			emit("delete");
+			emit("answer", response.data);
 		}
 	}
-}
+
+	async function delete_comment(cid: number) {
+		if (window.confirm("Do you really want to delete this comment?")) {
+			const response = await api_call<Post>("DELETE", "comment", {
+				cid,
+				pid: props.pid
+			});
+
+			if (response.ok) {
+				emit("delete");
+			}
+		}
+	}
 </script>
 
 <template>
@@ -67,44 +67,44 @@ async function delete_comment(cid: number) {
 </template>
 
 <style scoped>
-.comment * {
-	padding: 0.25em;
-}
+	.comment * {
+		padding: 0.25em;
+	}
 
-.comment {
-	border: 0.075em solid gray;
-	border-radius: 0.125em;
+	.comment {
+		border: 0.075em solid gray;
+		border-radius: 0.125em;
 
-	box-shadow: 1px 1px 1px #999;
-}
+		box-shadow: 1px 1px 1px #999;
+	}
 
-.comment_text {
-	display: flex;
+	.comment_text {
+		display: flex;
 
-	justify-content: space-between;
-}
+		justify-content: space-between;
+	}
 
-input.btn_delete {
-	aspect-ratio: 1;
-	height: 100%;
-	width: 2em;
-}
+	input.btn_delete {
+		aspect-ratio: 1;
+		height: 100%;
+		width: 2em;
+	}
 
-.answer {
-	background-color: lightgray;
-	margin-left: 1em;
-}
+	.answer {
+		background-color: lightgray;
+		margin-left: 1em;
+	}
 
-.answer > textarea {
-	flex: 1;
+	.answer > textarea {
+		flex: 1;
 
-	font-family: Signika;
-	color: black;
+		font-family: Signika;
+		color: black;
 
-	resize: vertical;
-	width: 100%;
+		resize: vertical;
+		width: 100%;
 
-	border: unset;
-	background-color: transparent;
-}
+		border: unset;
+		background-color: transparent;
+	}
 </style>

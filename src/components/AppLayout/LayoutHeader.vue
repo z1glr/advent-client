@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { api_call } from "@/Lib";
-import Global, { type User } from "@/Global";
+	import { api_call } from "@/Lib";
+	import Global, { type User } from "@/Global";
 
-async function logout() {
-	const res = await api_call<User>("GET", "logout");
+	async function logout() {
+		const res = await api_call<User>("GET", "logout");
 
-	if (res.ok) {
-		Global.user.value = res.data;
+		if (res.ok) {
+			Global.user.value = res.data;
+		}
 	}
-}
 
-function is_home(pathname: string): boolean {
-	return window.location.pathname === pathname;
-}
+	function is_home(pathname: string): boolean {
+		return window.location.pathname === pathname;
+	}
 </script>
 
 <template>
@@ -27,8 +27,8 @@ function is_home(pathname: string): boolean {
 </template>
 
 <style scoped>
-.header {
-	display: flex;
-	gap: 2em;
-}
+	.header {
+		display: flex;
+		gap: 2em;
+	}
 </style>

@@ -1,30 +1,30 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
+	import { ref, watch } from "vue";
 
-import AppLayout from "@/components/AppLayout/AppLayout.vue";
-import AdminPosts from "./AdminPosts.vue";
-import AdminComments from "./AdminComments.vue";
-import AdminUsers from "./AdminUsers.vue";
+	import AppLayout from "@/components/AppLayout/AppLayout.vue";
+	import AdminPosts from "./AdminPosts.vue";
+	import AdminComments from "./AdminComments.vue";
+	import AdminUsers from "./AdminUsers.vue";
 
-import Global from "@/Global";
+	import Global from "@/Global";
 
-enum State {
-	Posts,
-	Comments,
-	Users
-}
+	enum State {
+		Posts,
+		Comments,
+		Users
+	}
 
-const window_state = ref<State>(State.Posts);
+	const window_state = ref<State>(State.Posts);
 
-watch(
-	() => Global.user.value.logged_in,
-	() => {
-		if (!Global.user.value.logged_in || !Global.user.value.admin) {
-			window.location.href = window.location.origin;
-		}
-	},
-	{ immediate: true }
-);
+	watch(
+		() => Global.user.value.logged_in,
+		() => {
+			if (!Global.user.value.logged_in || !Global.user.value.admin) {
+				window.location.href = window.location.origin;
+			}
+		},
+		{ immediate: true }
+	);
 </script>
 
 <template>
@@ -48,7 +48,7 @@ watch(
 </template>
 
 <style scoped>
-a.active {
-	text-decoration: underline;
-}
+	a.active {
+		text-decoration: underline;
+	}
 </style>

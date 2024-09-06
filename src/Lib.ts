@@ -14,7 +14,7 @@ export enum HTTPStatus {
 	Found = 302,
 	SeeOther = 303,
 	NotModified = 304,
-	unused = 306,
+	Unused = 306,
 	TemporaryRedirect = 307,
 	Permanent = 308,
 	BadRequest = 400,
@@ -53,6 +53,7 @@ export enum HTTPStatus {
 	NetworkAuthenticationRequired = 511
 }
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 type QueryParams = Record<string, string | { toString(): string }>;
 type APICallResult<T extends object> = { data: T; status: HTTPStatus; ok: boolean };
 export async function api_call<K extends object>(
@@ -110,6 +111,7 @@ export async function api_call<K extends object>(
 
 	const response = await fetch(url, {
 		headers: {
+			// eslint-disable-next-line @typescript-eslint/naming-convention
 			"Content-Type": "application/json; charset=UTF-8"
 		},
 		credentials: "include",

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import BaseHome from "./components/Post/BaseHome.vue";
-import BaseLogin from "./components/BaseLogin.vue";
-import AppLayout from "./components/AppLayout/AppLayout.vue";
-import Global from "./Global";
+	import BaseHome from "./components/Post/BaseHome.vue";
+	import BaseLogin from "./components/BaseLogin.vue";
+	import AppLayout from "./components/AppLayout/AppLayout.vue";
+	import Global from "./Global";
 </script>
 
 <template>

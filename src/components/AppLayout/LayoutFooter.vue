@@ -1,12 +1,14 @@
 <script setup lang="ts">
-const sites = {
-	Datenschutz: "/legal/Datenschutz",
-	Impressum: "/legal/Impressum"
-};
+	const sites = {
+		/* eslint-disable @typescript-eslint/naming-convention */
+		Datenschutz: "/legal/Datenschutz",
+		Impressum: "/legal/Impressum"
+		/* eslint-enable @typescript-eslint/naming-convention */
+	};
 
-function is_home(pathname: string): boolean {
-	return window.location.pathname === pathname;
-}
+	function is_home(pathname: string): boolean {
+		return window.location.pathname === pathname;
+	}
 </script>
 
 <template>
@@ -23,20 +25,20 @@ function is_home(pathname: string): boolean {
 </template>
 
 <style scoped>
-.footer {
-	display: flex;
-	gap: 2em;
-}
+	.footer {
+		display: flex;
+		gap: 2em;
+	}
 
-a:link,
-a:visited,
-a:hover,
-a:active {
-	text-decoration: none;
-	color: unset;
-}
+	a:link,
+	a:visited,
+	a:hover,
+	a:active {
+		text-decoration: none;
+		color: unset;
+	}
 
-a.active {
-	text-decoration: underline;
-}
+	a.active {
+		text-decoration: underline;
+	}
 </style>

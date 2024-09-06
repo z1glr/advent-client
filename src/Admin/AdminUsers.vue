@@ -1,95 +1,95 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { faFloppyDisk, faTrash } from "@fortawesome/free-solid-svg-icons";
+	import { onMounted, ref } from "vue";
+	import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+	import { faFloppyDisk, faTrash } from "@fortawesome/free-solid-svg-icons";
 
-import BaseButton from "@/components/BaseButton.vue";
-import BaseSlider from "@/components/BaseSlider.vue";
+	import BaseButton from "@/components/BaseButton.vue";
+	import BaseSlider from "@/components/BaseSlider.vue";
 
-import { api_call, HTTPStatus } from "@/Lib";
+	import { api_call, HTTPStatus } from "@/Lib";
 
-interface User {
-	name: string;
-	uid: number;
-	admin: boolean;
-}
-type PasswordUser = User & { password: string; name: string };
-
-const users = ref<PasswordUser[]>([]);
-const add_user_name = ref<string>("");
-const add_user_password = ref<string>("");
-const user_exists_error = ref<boolean>(false);
-
-onMounted(async () => {
-	create_password();
-
-	const response = await api_call<User[]>("GET", "users");
-
-	if (response.ok) {
-		store_users(response.data);
+	interface User {
+		name: string;
+		uid: number;
+		admin: boolean;
 	}
-});
+	type PasswordUser = User & { password: string; name: string };
 
-function create_password() {
-	// create the password
-	const password_number = String(Math.floor(Math.random() * 90000000 + 10000000));
-	const password = password_number.slice(0, 4) + "-" + password_number.slice(4);
+	const users = ref<PasswordUser[]>([]);
+	const add_user_name = ref<string>("");
+	const add_user_password = ref<string>("");
+	const user_exists_error = ref<boolean>(false);
 
-	add_user_password.value = password;
-	add_user_name.value = "";
-}
+	onMounted(async () => {
+		create_password();
 
-async function add_user(
-	user: string = add_user_name.value,
-	password: string = add_user_password.value
-) {
-	if (user.length > 0 && password.length > 0) {
-		const response = await api_call<User[]>("POST", "user", undefined, { user, password });
+		const response = await api_call<User[]>("GET", "users");
 
 		if (response.ok) {
-			create_password();
-
 			store_users(response.data);
+		}
+	});
 
-			user_exists_error.value = false;
-		} else {
-			if (response.status === HTTPStatus.Conflict) {
-				user_exists_error.value = true;
+	function create_password() {
+		// create the password
+		const password_number = String(Math.floor(Math.random() * 90000000 + 10000000));
+		const password = password_number.slice(0, 4) + "-" + password_number.slice(4);
+
+		add_user_password.value = password;
+		add_user_name.value = "";
+	}
+
+	async function add_user(
+		user: string = add_user_name.value,
+		password: string = add_user_password.value
+	) {
+		if (user.length > 0 && password.length > 0) {
+			const response = await api_call<User[]>("POST", "user", undefined, { user, password });
+
+			if (response.ok) {
+				create_password();
+
+				store_users(response.data);
+
+				user_exists_error.value = false;
+			} else {
+				if (response.status === HTTPStatus.Conflict) {
+					user_exists_error.value = true;
+				}
 			}
 		}
 	}
-}
 
-async function modify_user(user: PasswordUser) {
-	if (window.confirm(`Modify user '${user.name}'?`)) {
-		const response = await api_call<User[]>(
-			"POST",
-			"user/modify",
-			{ uid: user.uid },
-			{ password: user.password, admin: user.admin }
-		);
+	async function modify_user(user: PasswordUser) {
+		if (window.confirm(`Modify user '${user.name}'?`)) {
+			const response = await api_call<User[]>(
+				"POST",
+				"user/modify",
+				{ uid: user.uid },
+				{ password: user.password, admin: user.admin }
+			);
 
-		if (response.ok) {
-			store_users(response.data);
+			if (response.ok) {
+				store_users(response.data);
+			}
 		}
 	}
-}
 
-async function delete_user(user: PasswordUser) {
-	if (window.confirm(`Delete user '${user.name}'?`)) {
-		const response = await api_call<User[]>("DELETE", "user", { uid: user.uid });
+	async function delete_user(user: PasswordUser) {
+		if (window.confirm(`Delete user '${user.name}'?`)) {
+			const response = await api_call<User[]>("DELETE", "user", { uid: user.uid });
 
-		if (response.ok) {
-			store_users(response.data);
+			if (response.ok) {
+				store_users(response.data);
+			}
 		}
 	}
-}
 
-function store_users(new_users: User[]) {
-	users.value = new_users.map((user) => {
-		return { ...user, password: "" };
-	});
-}
+	function store_users(new_users: User[]) {
+		users.value = new_users.map((user) => {
+			return { ...user, password: "" };
+		});
+	}
 </script>
 
 <template>
@@ -147,84 +147,84 @@ function store_users(new_users: User[]) {
 </template>
 
 <style scoped>
-#container {
-	/* width: 100%; */
+	#container {
+		/* width: 100%; */
 
-	display: flex;
-	flex-direction: column;
+		display: flex;
+		flex-direction: column;
 
-	align-items: center;
+		align-items: center;
 
-	gap: 0.25em;
-}
+		gap: 0.25em;
+	}
 
-#add-user {
-	display: flex;
-	flex-direction: column;
+	#add-user {
+		display: flex;
+		flex-direction: column;
 
-	gap: 0.25em;
+		gap: 0.25em;
 
-	font-size: 1em;
-}
+		font-size: 1em;
+	}
 
-#user-exists-error {
-	color: red;
-}
+	#user-exists-error {
+		color: red;
+	}
 
-#add-user-inputs {
-	display: flex;
-	gap: 0.25em;
-}
+	#add-user-inputs {
+		display: flex;
+		gap: 0.25em;
+	}
 
-#add-user-inputs > input {
-	font-size: inherit;
-}
+	#add-user-inputs > input {
+		font-size: inherit;
+	}
 
-#users {
-	width: 100%;
-}
+	#users {
+		width: 100%;
+	}
 
-tr.header * {
-	font-weight: bolder;
+	tr.header * {
+		font-weight: bolder;
 
-	background-color: black;
-	color: white;
-}
+		background-color: black;
+		color: white;
+	}
 
-tr.content:nth-of-type(2n) {
-	background-color: hsl(0, 0%, 90%);
-}
+	tr.content:nth-of-type(2n) {
+		background-color: hsl(0, 0%, 90%);
+	}
 
-tr.content:nth-of-type(2n + 1) {
-	background-color: hsl(0, 0%, 80%);
-}
+	tr.content:nth-of-type(2n + 1) {
+		background-color: hsl(0, 0%, 80%);
+	}
 
-th {
-	padding: 0.25em;
-}
+	th {
+		padding: 0.25em;
+	}
 
-th > div.cell {
-	width: 100%;
+	th > div.cell {
+		width: 100%;
 
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
 
-th input[type="text"] {
-	flex: 1;
-}
+	th input[type="text"] {
+		flex: 1;
+	}
 
-tr.content input[type="text"] {
-	font-size: 0.67em;
-}
+	tr.content input[type="text"] {
+		font-size: 0.67em;
+	}
 
-.content .button {
-	background-color: transparent;
-	color: var(--color-off);
-}
+	.content .button {
+		background-color: transparent;
+		color: var(--color-off);
+	}
 
-.content .button:hover {
-	color: var(--color-off-hover);
-}
+	.content .button:hover {
+		color: var(--color-off-hover);
+	}
 </style>

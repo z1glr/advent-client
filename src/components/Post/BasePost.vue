@@ -1,66 +1,65 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
-import VueMarkdown from "vue-markdown-render";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+	import { onMounted, ref } from "vue";
+	import VueMarkdown from "vue-markdown-render";
+	import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+	import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
-import BaseComment from "./BaseComment.vue";
-import BaseButton from "../BaseButton.vue";
+	import BaseComment from "./BaseComment.vue";
+	import BaseButton from "../BaseButton.vue";
 
-import Global, { type Comment, type Post } from "@/Global";
-import { api_call } from "@/Lib";
+	import Global, { type Comment, type Post } from "@/Global";
+	import { api_call } from "@/Lib";
 
-const props = defineProps<{
-	pid: number;
-}>();
+	const props = defineProps<{
+		pid: number;
+	}>();
 
-const content = ref<Post>();
-const comments = ref<Comment[]>([]);
-const comment_input_text = ref<string>("");
+	const content = ref<Post>();
+	const comments = ref<Comment[]>([]);
+	const comment_input_text = ref<string>("");
 
-onMounted(async () => {
-	await Promise.allSettled([get_post(), get_comments()]);
-});
+	onMounted(async () => {
+		await Promise.allSettled([get_post(), get_comments()]);
+	});
 
-async function get_post() {
-	const response = await api_call<Post>("GET", "posts", { pid: props.pid });
+	async function get_post() {
+		const response = await api_call<Post>("GET", "posts", { pid: props.pid });
 
-	if (response.ok) {
-		content.value = response.data;
+		if (response.ok) {
+			content.value = response.data;
+		}
 	}
-}
 
-async function get_comments() {
-	const response = await api_call<Comment[]>("GET", "comments", { pid: props.pid });
-
-	if (response.ok) {
-		comments.value = response.data;
-	}
-}
-
-async function send_comment() {
-	if (comment_input_text.value.length > 0 && !!content.value) {
-		const response = await api_call<Comment[]>(
-			"POST",
-			"comment",
-			{ pid: content.value.pid },
-			{
-				text: comment_input_text.value
-			}
-		);
+	async function get_comments() {
+		const response = await api_call<Comment[]>("GET", "comments", { pid: props.pid });
 
 		if (response.ok) {
 			comments.value = response.data;
-
-			comment_input_text.value = "";
 		}
 	}
-}
+
+	async function send_comment() {
+		if (comment_input_text.value.length > 0 && !!content.value) {
+			const response = await api_call<Comment[]>(
+				"POST",
+				"comment",
+				{ pid: content.value.pid },
+				{
+					text: comment_input_text.value
+				}
+			);
+
+			if (response.ok) {
+				comments.value = response.data;
+
+				comment_input_text.value = "";
+			}
+		}
+	}
 </script>
 
 <template>
 	<template v-if="content !== undefined">
-		<h1 class="title">{{ content.title }}</h1>
 		<VueMarkdown id="content" :source="content.content" />
 		<h2>Fragen</h2>
 		<div
@@ -84,39 +83,34 @@ async function send_comment() {
 </template>
 
 <style scoped>
-h1.title {
-	font-weight: bold;
-	font-size: 2.5em;
-}
+	#content {
+		overflow-x: clip;
+	}
 
-#content {
-	overflow-x: clip;
-}
+	#content:deep(code) {
+		text-wrap: wrap;
+		overflow-wrap: anywhere;
+	}
 
-#content:deep(code) {
-	text-wrap: wrap;
-	overflow-wrap: anywhere;
-}
+	#comment-input {
+		display: flex;
+		gap: 0.25em;
 
-#comment-input {
-	display: flex;
-	gap: 0.25em;
+		flex-direction: row;
+	}
 
-	flex-direction: row;
-}
+	#comment-input > textarea {
+		flex: 1;
 
-#comment-input > textarea {
-	flex: 1;
+		font-family: Signika;
+		font-size: inherit;
 
-	font-family: Signika;
-	font-size: inherit;
+		resize: vertical;
+	}
 
-	resize: vertical;
-}
+	#comments {
+		display: grid;
 
-#comments {
-	display: grid;
-
-	gap: 0.25em;
-}
+		gap: 0.25em;
+	}
 </style>

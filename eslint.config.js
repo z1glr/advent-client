@@ -27,14 +27,46 @@ export default [
 	},
 	{
 		rules: {
-			"vue/no-use-v-if-with-v-for": "off"
+			"@typescript-eslint/naming-convention": [
+				"error",
+				{
+					"selector": "default",
+					"format": ["snake_case"]
+				},
+				{
+					"selector": "typeLike",
+					"format": ["PascalCase"],
+					"leadingUnderscore": "forbid",
+					"trailingUnderscore": "forbid"
+				},
+				{
+					"selector": "enumMember",
+					"format": ["PascalCase"],
+					"leadingUnderscore": "forbid",
+					"trailingUnderscore": "forbid"
+				},
+				{
+					"selector": "import",
+					"format": ["PascalCase", "snake_case", "camelCase"],
+					"leadingUnderscore": "forbid",
+					"trailingUnderscore": "forbid"
+				}
+			],
+			"vue/no-use-v-if-with-v-for": "off",
+			"vue/script-indent": ["error", "tab", {
+				"baseIndent": 1,
+				"switchCase": 1,
+				"ignores": []
+			}]
 		}
 	},
 	{
 		ignores: [
 			"build-scripts/*.js",
 			"build-scripts/*.cjs",
-			"dist/*"
+			"dist/*",
+			"eslint.config.js",
+			"vite.config.ts"
 		]
 	},
 ];

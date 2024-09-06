@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import LayoutFooter from "./LayoutFooter.vue";
-import LayoutHeader from "./LayoutHeader.vue";
+	import LayoutFooter from "./LayoutFooter.vue";
+	import LayoutHeader from "./LayoutHeader.vue";
 </script>
 
 <template>
@@ -14,43 +14,49 @@ import LayoutHeader from "./LayoutHeader.vue";
 </template>
 
 <style scoped>
-#scroll {
-	width: 100%;
-	height: 100%;
+	#scroll {
+		width: 100%;
+		height: 100%;
 
-	overflow: auto;
+		overflow: auto;
 
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
+		display: flex;
+		justify-content: center;
+	}
 
-#app_content {
-	width: 100%;
-	height: 100%;
-	max-width: 50em;
-}
+	#app_content {
+		width: 100%;
+		height: 100%;
+		max-width: 50em;
 
-#footer {
-	margin-top: auto;
-}
+		padding-inline: 1em;
+
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.25em;
+	}
+
+	#footer {
+		margin-top: auto;
+	}
 </style>
 
 <style>
-#app_mount {
-	font-family: "Signika";
-	font-size: 1.5em;
+	#app_mount {
+		font-family: "Signika";
+		font-size: 1.5em;
 
-	margin: 0 auto;
-	padding-block: 2em;
-	height: 100vh;
-	width: 100vw;
+		margin: 0 auto;
+		padding-block: 0.5em;
+		height: 100vh;
+		width: 100vw;
 
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 1em;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1em;
 
-	overflow: clip;
-}
+		overflow: clip;
+	}
 </style>
