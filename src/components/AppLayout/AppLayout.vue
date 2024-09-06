@@ -59,4 +59,8 @@
 
 		overflow: clip;
 	}
+
+	body {
+		margin: 0;
+	}
 </style>
