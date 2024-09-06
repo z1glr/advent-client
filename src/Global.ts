@@ -32,10 +32,12 @@ class Globals {
 // eslint-disable-next-line @typescript-eslint/naming-convention
 const Global = new Globals();
 
-// initialize the sesison-state
-const res = await api_call<User>("GET", "welcome");
-if (res.ok) {
-	Global.user.value = res.data;
-}
+// initialize the user
+void (async () => {
+	const res = await api_call<User>("GET", "welcome");
+	if (res.ok) {
+		Global.user.value = res.data;
+	}
+})();
 
 export default Global;

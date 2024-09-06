@@ -20,13 +20,14 @@ export default defineConfig({
 		vue(),
 	],
 	build: {
-		outDir: "dist/build/client",
+		outDir: "../dist/build/client",
 		emptyOutDir: true,
 		rollupOptions: {
 			input: {
-				"legal/Impressum": resolve(__dirname, "legal/Impressum.html"),
-				"legal/Datenschutz": resolve(__dirname, "legal/Datenschutz.html"),
-				admin: resolve(__dirname, "admin.html")
+				index: resolve(__dirname, "src/index.html"),
+				admin: resolve(__dirname, "src/admin.html"),
+				"legal/Impressum": resolve(__dirname, "src/legal/Impressum.html"),
+				"legal/Datenschutz": resolve(__dirname, "src/legal/Datenschutz.html")
 			}
 		}
 	},

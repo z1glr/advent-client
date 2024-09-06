@@ -1,10 +1,11 @@
 <script setup lang="ts">
-	import { ref, watch } from "vue";
+	import { ref } from "vue";
 
 	import AppLayout from "@/components/AppLayout/AppLayout.vue";
 	import AdminPosts from "./AdminPosts.vue";
 	import AdminComments from "./AdminComments.vue";
 	import AdminUsers from "./AdminUsers.vue";
+	import BaseLogin from "@/components/BaseLogin.vue";
 
 	import Global from "@/Global";
 
@@ -15,16 +16,6 @@
 	}
 
 	const window_state = ref<State>(State.Posts);
-
-	watch(
-		() => Global.user.value.logged_in,
-		() => {
-			if (!Global.user.value.logged_in || !Global.user.value.admin) {
-				window.location.href = window.location.origin;
-			}
-		},
-		{ immediate: true }
-	);
 </script>
 
 <template>
@@ -41,7 +32,8 @@
 			>
 		</template>
 
-		<AdminPosts v-if="window_state === State.Posts" />
+		<BaseLogin v-if="!Global.user.value.logged_in" />
+		<AdminPosts v-else-if="window_state === State.Posts" />
 		<AdminComments v-else-if="window_state === State.Comments" />
 		<AdminUsers v-else-if="window_state === State.Users" />
 	</AppLayout>
