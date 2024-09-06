@@ -58,7 +58,7 @@
 			{{ comment.text
 			}}<input class="btn_delete" type="button" value="X" @click="delete_comment(comment.cid)" />
 		</div>
-		<div v-if="Global.user.value.admin" class="answer">
+		<div v-if="Global.user.value?.admin" class="answer">
 			<textarea placeholder="Antwort" v-model="answer_user_input" />
 			<input type="button" value="Bestätigen" @click="add_answer(comment.cid)" />
 		</div>

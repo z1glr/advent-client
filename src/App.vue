@@ -7,7 +7,7 @@
 
 <template>
 	<AppLayout>
-		<BaseLogin v-if="!Global.user.value.logged_in" />
+		<BaseLogin v-if="!Global.user.value?.logged_in" />
 		<BaseHome v-else />
 	</AppLayout>
 </template>

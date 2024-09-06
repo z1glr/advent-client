@@ -64,7 +64,7 @@
 		<h2>Fragen</h2>
 		<div
 			id="comment-input"
-			v-show="!comments.some((comment) => comment.uid === Global.user.value.uid)"
+			v-show="!comments.some((comment) => comment.uid === Global.user.value?.uid)"
 		>
 			<textarea v-model="comment_input_text" placeholder="Frage einsenden" />
 			<BaseButton @click="send_comment"><FontAwesomeIcon :icon="faPaperPlane" /> Senden</BaseButton>

@@ -18,11 +18,11 @@
 <template>
 	<div class="header">
 		<a v-if="!is_home('/')" href="/">Home</a>
-		<a v-if="Global.user.value.admin && !is_home('/admin')" href="/admin">Admin</a>
+		<a v-if="Global.user.value?.admin && !is_home('/admin')" href="/admin">Admin</a>
 
 		<slot></slot>
 
-		<a v-if="Global.user.value.logged_in" @click="logout">Logout</a>
+		<a v-if="Global.user.value?.logged_in" @click="logout">Logout</a>
 	</div>
 </template>
 

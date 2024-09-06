@@ -26,7 +26,7 @@ export interface Login extends User {
 }
 
 class Globals {
-	user = ref<User>({ uid: 0, admin: false, logged_in: false });
+	user = ref<User>();
 }
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
