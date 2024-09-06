@@ -1,15 +1,15 @@
 <script setup lang="ts">
-	const props = defineProps<{
-		disabled?: boolean;
-	}>();
+const props = defineProps<{
+	disabled?: boolean;
+}>();
 
-	const state = defineModel<boolean>({ default: false });
+const state = defineModel<boolean>({ default: false });
 
-	function toggle() {
-		if (!props.disabled) {
-			state.value = !state.value;
-		}
+function toggle() {
+	if (!props.disabled) {
+		state.value = !state.value;
 	}
+}
 </script>
 
 <template>
@@ -19,72 +19,74 @@
 </template>
 
 <style scoped>
-	#wrapper {
-		aspect-ratio: 2;
+#wrapper {
+	aspect-ratio: 2;
 
-		height: 1.125em;
-		user-select: none;
+	height: 1.125em;
+	user-select: none;
 
-		position: relative;
+	position: relative;
 
-		background-color: var(--color-off);
+	background-color: var(--color-off);
 
-		transition: background-color 0.2s ease, filter 0.2s ease;
+	transition:
+		background-color 0.2s ease,
+		filter 0.2s ease;
 
-		border-radius: 50cqb;
-	}
+	border-radius: 50cqb;
+}
 
-	#wrapper.disabled {
-		background-color: var(--color-off-disabled);
-	}
-	#wrapper.active.disabled {
-		background-color: var(--color-active-disabled);
-	}
+#wrapper.disabled {
+	background-color: var(--color-off-disabled);
+}
+#wrapper.active.disabled {
+	background-color: var(--color-active-disabled);
+}
 
-	#wrapper:not(.disabled) {
-		cursor: pointer;
-	}
+#wrapper:not(.disabled) {
+	cursor: pointer;
+}
 
-	#wrapper.active {
-		background-color: var(--color-active)
-	}
+#wrapper.active {
+	background-color: var(--color-active);
+}
 
-	#wrapper:not(.disabled):hover {
-		background-color: var(--color-off-hover);
-	}
-	#wrapper.active:not(.disabled):hover {
-		background-color: var(--color-active-hover);
-	}
+#wrapper:not(.disabled):hover {
+	background-color: var(--color-off-hover);
+}
+#wrapper.active:not(.disabled):hover {
+	background-color: var(--color-active-hover);
+}
 
-	#slider {
-		position: absolute;
-		inset: 0;
+#slider {
+	position: absolute;
+	inset: 0;
 
-		margin: 0.1875em;
-	}
+	margin: 0.1875em;
+}
 
-	#slider::before {
-		position: absolute;
+#slider::before {
+	position: absolute;
 
-		content: "";
-		
-		aspect-ratio: 1;
-		height: 100%;
+	content: "";
 
-		left: 0;
-		top: 0;
+	aspect-ratio: 1;
+	height: 100%;
 
-		border-radius: 50%;;
+	left: 0;
+	top: 0;
 
-		background-color: white;
+	border-radius: 50%;
 
-		transition-property: margin, transform;
-		transition-duration: 0.2s;
-		transition-timing-function: ease;
-	}
+	background-color: white;
 
-	.active > #slider::before {
-		margin-left: 100%;
-		transform: translatex(-100%);
-	}
+	transition-property: margin, transform;
+	transition-duration: 0.2s;
+	transition-timing-function: ease;
+}
+
+.active > #slider::before {
+	margin-left: 100%;
+	transform: translatex(-100%);
+}
 </style>

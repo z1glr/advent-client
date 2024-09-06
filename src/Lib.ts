@@ -1,5 +1,3 @@
-import Global, { State } from "./Global";
-
 export enum HTTPStatus {
 	Continue = 100,
 	SwitchingProtocols = 101,
@@ -52,25 +50,60 @@ export enum HTTPStatus {
 	HTTPVersionNotSupported = 505,
 	VariantAlsoNegotiates = 506,
 	NotExtended = 510,
-	NetworkAuthenticationRequired = 511	
+	NetworkAuthenticationRequired = 511
 }
 
-type QueryParams = Record<string, string | { toString(): string; }>;
-type APICallResult<T extends object> = { data: T; status: HTTPStatus; ok: boolean; };
-export async function api_call<K extends object>(method: "GET", api: string, params?: QueryParams): Promise<APICallResult<K>>
-export async function api_call<K extends object>(method: "POST", api: string, params?: QueryParams, body?: object): Promise<APICallResult<K>>
-export async function api_call<K extends object>(method: "DELETE", api: string, params?: QueryParams, body?: object): Promise<APICallResult<K>>
-export async function api_call<K extends object>(method: string, api: string,  params?: QueryParams, body?: object): Promise<APICallResult<K>> {
-	let url = Global.api + "/" + api;
+type QueryParams = Record<string, string | { toString(): string }>;
+type APICallResult<T extends object> = { data: T; status: HTTPStatus; ok: boolean };
+export async function api_call<K extends object>(
+	method: "GET",
+	api: string,
+	params?: QueryParams,
+	no_401_reload?: boolean
+): Promise<APICallResult<K>>;
+export async function api_call<K extends object>(
+	method: "POST",
+	api: string,
+	params?: QueryParams,
+	body?: object,
+	no_401_reload?: boolean
+): Promise<APICallResult<K>>;
+export async function api_call<K extends object>(
+	method: "DELETE",
+	api: string,
+	params?: QueryParams,
+	body?: object,
+	no_401_reload?: boolean
+): Promise<APICallResult<K>>;
+export async function api_call<K extends object>(
+	method: "GET" | "POST" | "DELETE",
+	api: string,
+	params?: QueryParams,
+	body_no_401_reload?: object | boolean,
+	no_401_reload?: boolean
+): Promise<APICallResult<K>> {
+	let body: object | undefined;
 
-	if (!!params) {
-		const urlsearchparams = new URLSearchParams(Object.fromEntries(Object.entries(params).map(([key, value]): [string, string] => {
-			if (typeof value !== "string") {
-				return [key, value.toString()];
-			} else {
-				return [key, value];
-			}
-		})));
+	if (typeof body_no_401_reload !== "boolean") {
+		body = body_no_401_reload;
+	} else {
+		no_401_reload = body_no_401_reload;
+	}
+
+	let url = window.origin + "/api/" + api;
+
+	if (params) {
+		const urlsearchparams = new URLSearchParams(
+			Object.fromEntries(
+				Object.entries(params).map(([key, value]): [string, string] => {
+					if (typeof value !== "string") {
+						return [key, value.toString()];
+					} else {
+						return [key, value];
+					}
+				})
+			)
+		);
 
 		url += "?" + urlsearchparams.toString();
 	}
@@ -79,14 +112,14 @@ export async function api_call<K extends object>(method: string, api: string,  p
 		headers: {
 			"Content-Type": "application/json; charset=UTF-8"
 		},
-		credentials: 'include',
+		credentials: "include",
 		method,
 		body: body !== undefined ? JSON.stringify(body) : undefined
 	});
 
 	// if the error-code is 401 = unauthorized, go back to the login-view
 	if (response.status === HTTPStatus.Unauthorized) {
-		if (Global.user.value.logged_in) {
+		if (!no_401_reload) {
 			location.reload();
 		}
 	}
@@ -94,7 +127,7 @@ export async function api_call<K extends object>(method: string, api: string,  p
 	const content_type = response.headers.get("content-type");
 
 	if (content_type && content_type.indexOf("application/json") !== -1) {
-		return { data: await response.json() as K, status: response.status, ok: response.ok };
+		return { data: (await response.json()) as K, status: response.status, ok: response.ok };
 	} else {
 		return { status: response.status, data: undefined as unknown as K, ok: response.ok };
 	}
@@ -102,11 +135,19 @@ export async function api_call<K extends object>(method: string, api: string,  p
 
 export function create_lcg_random(seed: number) {
 	let state = seed;
-  
+
 	function next() {
-	  state = (state * 1103515245 + 12345) % 2**32;
-	  return state / 2**32;
+		state = (state * 1103515245 + 12345) % 2 ** 32;
+		return state / 2 ** 32;
 	}
-  
+
 	return next;
-  }
+}
+
+export function format_date(dt: Date): string {
+	return [
+		dt.getFullYear().toString(),
+		(dt.getMonth() + 1).toString().padStart(2, "0"),
+		dt.getDate().toString().padStart(2, "0")
+	].join("-");
+}

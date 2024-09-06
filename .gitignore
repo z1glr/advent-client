@@ -1,3 +1,8 @@
 node_modules
-public/signika*
-public/legal/*
+src/public/signika*
+src/public/legal/*
+
+build-scripts/release.cjs
+build-scripts/3rdpartylicenses.json
+
+dist

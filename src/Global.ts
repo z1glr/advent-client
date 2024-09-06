@@ -1,15 +1,5 @@
 import { ref } from "vue";
-
-export enum State {
-	INIT,
-	Datenschutz,
-	Impressum,
-	Login,
-	Home,
-	Posts,
-	Comments,
-	Users
-};
+import { api_call } from "./Lib";
 
 export interface Post {
 	pid: number;
@@ -38,10 +28,14 @@ export interface Login extends User {
 
 class Globals {
 	user = ref<User>({ uid: 0, admin: false, logged_in: false });
-	api: string = window.origin + "/api";
-	state = ref<State>(State.INIT);
 }
 
 const Global = new Globals();
+
+// initialize the sesison-state
+const res = await api_call<User>("GET", "welcome");
+if (res.ok) {
+	Global.user.value = res.data;
+}
 
 export default Global;
