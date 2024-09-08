@@ -40,10 +40,7 @@
 
 	async function delete_comment(cid: number) {
 		if (window.confirm("Do you really want to delete this comment?")) {
-			const response = await api_call<Post>("DELETE", "comment", {
-				cid,
-				pid: props.pid
-			});
+			const response = await api_call<Post>("DELETE", "comment", { cid });
 
 			if (response.ok) {
 				emit("delete");
