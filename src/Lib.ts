@@ -146,6 +146,8 @@ export function create_lcg_random(seed: number) {
 	return next;
 }
 
+export const today = new Date();
+
 export function format_date(dt: Date): string {
 	return [
 		dt.getFullYear().toString(),

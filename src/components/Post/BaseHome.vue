@@ -1,7 +1,7 @@
 <script setup lang="ts">
 	import { onBeforeMount, ref } from "vue";
 	import Post from "./BasePost.vue";
-	import { api_call, create_lcg_random, format_date } from "@/Lib";
+	import { api_call, create_lcg_random, format_date, today } from "@/Lib";
 
 	interface Door {
 		value: number;
@@ -26,7 +26,6 @@
 				days[j] = temp;
 			}
 
-			const today = new Date();
 			const start_date = new Date(response.data.start);
 
 			doors.value = days.map((day) => {

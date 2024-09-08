@@ -8,7 +8,7 @@
 	import BaseButton from "../BaseButton.vue";
 
 	import Global, { type Comment, type Post } from "@/Global";
-	import { api_call } from "@/Lib";
+	import { api_call, format_date, today } from "@/Lib";
 
 	const props = defineProps<{
 		pid: number;
@@ -64,7 +64,10 @@
 		<h2>Fragen</h2>
 		<div
 			id="comment-input"
-			v-show="!comments.some((comment) => comment.uid === Global.user.value?.uid)"
+			v-show="
+				!comments.some((comment) => comment.uid === Global.user.value?.uid) &&
+				content.date === format_date(today)
+			"
 		>
 			<textarea v-model="comment_input_text" placeholder="Frage einsenden" />
 			<BaseButton @click="send_comment"><FontAwesomeIcon :icon="faPaperPlane" /> Senden</BaseButton>
