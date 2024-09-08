@@ -21,9 +21,15 @@
 		selected_post.value = posts[0];
 	});
 
-	watch(selected_post, () => {
-		unsaved_changes.value = true;
-	});
+	// watch for change of the selccted post -> reset unsaved_changes
+	watch(
+		selected_post,
+		(new_post, old_post) => {
+			// if the id changed, it is a new post -> reset
+			unsaved_changes.value = old_post?.pid === new_post?.pid;
+		},
+		{ deep: true }
+	);
 
 	async function get_posts() {
 		const response = await api_call<Post[]>("GET", "posts");
