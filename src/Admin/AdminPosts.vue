@@ -4,7 +4,7 @@
 	import "md-editor-v3/lib/style.css";
 	import VueMarkdown from "vue-markdown-render";
 
-	import { api_call } from "@/Lib";
+	import { api_call, HTTPStatus } from "@/Lib";
 	import { type Post } from "@/Global";
 
 	const posts = ref<Post[]>([]);
@@ -55,6 +55,33 @@
 			}
 		}
 	}
+
+	async function upload_image(
+		files: File[],
+		callback: (urls: string[] | { url: string; alt: string; title: string }[]) => void
+	) {
+		const form_data = new FormData();
+		form_data.append("file", files[0]);
+
+		const response = await fetch(window.origin + "/api/storage/upload", {
+			method: "POST",
+			credentials: "include",
+			body: form_data
+		});
+
+		// if the error-code is 401 = unauthorized, go back to the login-view
+		if (response.status === HTTPStatus.Unauthorized) {
+			location.reload();
+		}
+
+		const content_type = response.headers.get("content-type");
+
+		if (content_type && content_type.indexOf("application/json") !== -1) {
+			const res = (await response.json()) as { url: string };
+
+			callback([res.url]);
+		}
+	}
 </script>
 
 <template>
@@ -94,9 +121,9 @@
 					'image'
 				]"
 				:tab-width="4"
-				:no-upload-img="true"
 				:preview="false"
 				@on-save="save_post"
+				@on-upload-img="upload_image"
 			/>
 			<VueMarkdown id="preview" :source="selected_post.content" />
 		</div>
