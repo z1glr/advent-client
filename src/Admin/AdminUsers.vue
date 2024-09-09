@@ -122,7 +122,12 @@
 				<th>{{ user.name }}</th>
 				<th>
 					<div class="cell">
-						<input type="text" v-model="user.password" placeholder="new password" />
+						<input
+							v-model="user.password"
+							:disabled="user.name === 'admin' && Global.user.value?.uid !== user.uid"
+							type="text"
+							placeholder="new password"
+						/>
 					</div>
 				</th>
 				<th>
@@ -136,9 +141,13 @@
 				</th>
 				<th>
 					<div class="cell">
-						<BaseButton class="button" @click="modify_user(user)"
-							><FontAwesomeIcon :icon="faFloppyDisk"
-						/></BaseButton>
+						<BaseButton
+							:disabled="user.name === 'admin' && Global.user.value?.uid !== user.uid"
+							class="button"
+							@click="modify_user(user)"
+						>
+							<FontAwesomeIcon :icon="faFloppyDisk" />
+						</BaseButton>
 					</div>
 				</th>
 				<th>
