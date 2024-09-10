@@ -1,8 +1,8 @@
-import "../assets/main.css";
+import "./assets/main.css";
 
 import { createApp } from "vue";
 
-import App from "./BaseLegal.vue";
+import App from "./BaseMarkdown.vue";
 
 const app = createApp(App);
 

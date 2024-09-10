@@ -6,6 +6,7 @@
 
 	const footer_sites = {
 		/* eslint-disable @typescript-eslint/naming-convention */
+		About: "/About",
 		Datenschutz: "/legal/Datenschutz",
 		Impressum: "/legal/Impressum"
 		/* eslint-enable @typescript-eslint/naming-convention */
