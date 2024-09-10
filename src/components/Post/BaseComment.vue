@@ -1,7 +1,11 @@
 <script setup lang="ts">
+	import { ref, watch } from "vue";
+	import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+	import { faPaperPlane, faTrashCan } from "@fortawesome/free-regular-svg-icons";
+
 	import Global, { type Comment, type Post } from "@/Global";
 	import { api_call } from "@/Lib";
-	import { ref, watch } from "vue";
+	import BaseButton from "../BaseButton.vue";
 
 	const props = defineProps<{
 		comment: Comment;
@@ -51,57 +55,72 @@
 
 <template>
 	<div class="comment">
-		<div class="comment_text">
-			{{ comment.text
-			}}<input class="btn_delete" type="button" value="X" @click="delete_comment(comment.cid)" />
+		<div class="comment-text">
+			{{ comment.text }}
+			<BaseButton @click="delete_comment(comment.cid)">
+				<FontAwesomeIcon :icon="faTrashCan" />
+			</BaseButton>
 		</div>
-		<div v-if="Global.user.value?.admin" class="answer">
+		<div v-if="Global.user.value?.admin" id="answer-text">
 			<textarea placeholder="Antwort" v-model="answer_user_input" />
-			<input type="button" value="Bestätigen" @click="add_answer(comment.cid)" />
+			<BaseButton @click="add_answer(comment.cid)"
+				><FontAwesomeIcon :icon="faPaperPlane"
+			/></BaseButton>
 		</div>
-		<div v-else-if="!!comment.answer" class="answer">{{ comment.answer }}</div>
+		<div v-else-if="!!comment.answer" id="answer-text">{{ comment.answer }}</div>
 	</div>
 </template>
 
 <style scoped>
-	.comment * {
+	.comment > * {
 		padding: 0.25em;
 	}
 
 	.comment {
-		border: 0.075em solid gray;
+		border: 0.075em solid var(--color-text);
 		border-radius: 0.125em;
 
 		box-shadow: 1px 1px 1px #999;
 	}
 
-	.comment_text {
+	.comment > div {
 		display: flex;
+		gap: 0.25em;
 
 		justify-content: space-between;
+		align-items: center;
+
+		text-wrap: wrap;
+		overflow-wrap: anywhere;
 	}
 
-	input.btn_delete {
-		aspect-ratio: 1;
-		height: 100%;
-		width: 2em;
+	#answer-text {
+		border: inherit;
+		border-radius: inherit;
+
+		margin: 0.25em;
 	}
 
-	.answer {
-		background-color: lightgray;
-		margin-left: 1em;
-	}
-
-	.answer > textarea {
+	#answer-text > textarea {
 		flex: 1;
 
+		font-size: unset;
 		font-family: Signika;
-		color: black;
 
 		resize: vertical;
 		width: 100%;
 
 		border: unset;
 		background-color: transparent;
+
+		color: var(--color-contrast);
+	}
+
+	#answer-text > textarea:focus {
+		outline: unset;
+	}
+
+	#answer-text > textarea::placeholder {
+		color: var(--color-contrast-hover);
 	}
 </style>

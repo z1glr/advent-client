@@ -19,31 +19,40 @@
 		align-items: center;
 		justify-content: center;
 
-		background-color: lightgray;
-
-		padding-inline: 0.25em;
-
-		border-radius: 0.25em;
-
 		user-select: none;
 
-		transition: filter 0.2s ease;
+		transition: background-color 0.1s ease;
+
+		aspect-ratio: 1;
+		height: 100%;
+		height: 1em;
+
+		margin: 0.25em;
+	}
+
+	.button:hover {
+		color: var(--color-text-hover);
+	}
+
+	.button.disabled {
+		color: var(--color-text-disabled);
+	}
+
+	.button.active,
+	.button:active:not(.disabled) {
+		color: var(--color-on);
+	}
+
+	.button.disabled.active {
+		color: var(--color-on-disabled);
+	}
+
+	.button.active:hover,
+	.button:active:hover:not(.disabled) {
+		color: var(--color-on-hover);
 	}
 
 	.button:not(.disabled) {
 		cursor: pointer;
-	}
-
-	.button.active {
-		color: white;
-		background-color: black;
-	}
-
-	.button.disabled {
-		filter: opacity(50%);
-	}
-
-	.button:not(.disabled):hover {
-		filter: brightness(85%);
 	}
 </style>

@@ -42,34 +42,37 @@
 
 <template>
 	<div id="content">
+		<h1>Login</h1>
 		<div v-if="wrong_password" id="wrong-password">
 			<h2>Login fehlgeschlagen</h2>
 			unbekannter Benutzer oder fasches Passwort
 		</div>
 		<form id="login">
-			<input
-				id="username"
-				type="text"
-				name="name"
-				autocomplete="username"
-				:required="true"
-				v-model="user_input"
-				placeholder="Name"
-				@keydown.enter="login"
-			/>
-			<input
-				id="password"
-				type="password"
-				name="password"
-				autocomplete="current-password"
-				:required="true"
-				v-model="password_input"
-				placeholder="Passwort"
-				@keydown.enter="login"
-			/>
-			<BaseButton id="submit" @click="login"
-				><FontAwesomeIcon :icon="faRightToBracket" /> Login</BaseButton
-			>
+			<div id="credential-inputs">
+				<input
+					id="username"
+					type="text"
+					name="name"
+					autocomplete="username"
+					:required="true"
+					v-model="user_input"
+					placeholder="Name"
+					@keydown.enter="login"
+				/>
+				<input
+					id="password"
+					type="password"
+					name="password"
+					autocomplete="current-password"
+					:required="true"
+					v-model="password_input"
+					placeholder="Passwort"
+					@keydown.enter="login"
+				/>
+			</div>
+			<BaseButton @click="login">
+				<FontAwesomeIcon :icon="faRightToBracket" />
+			</BaseButton>
 		</form>
 	</div>
 </template>
@@ -90,21 +93,25 @@
 	}
 
 	#wrong-password {
-		color: red;
+		color: var(--color-error);
 	}
 
 	#login {
 		width: 100%;
 
 		display: flex;
-		flex-direction: column;
 		align-items: center;
 		gap: 0.25em;
 	}
 
-	#login input {
-		width: 100%;
+	#credential-inputs {
+		display: flex;
+		flex-direction: column;
 
-		font-size: 1em;
+		gap: 0.25em;
+	}
+
+	#credential-inputs input {
+		width: 100%;
 	}
 </style>

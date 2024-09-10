@@ -58,7 +58,7 @@
 
 		border-radius: 0.25em;
 
-		background-color: white;
+		background-color: var(--color-background);
 		box-shadow: 0 0.25rem 0.5rem 0 rgba(0, 0, 0, 0.2);
 		z-index: 1;
 	}

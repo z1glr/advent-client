@@ -1,0 +1,13 @@
+builds:
+  main:
+    script: build
+    files:
+      - client
+release_dir: dist
+license_report:
+  config:
+    ignore:
+      - dist/*
+  path: licenses
+  license:
+    path: LICENSE

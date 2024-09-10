@@ -48,7 +48,15 @@
 </template>
 
 <style scoped>
+	a:hover {
+		color: var(--color-text-hover);
+	}
+
 	a.active {
-		text-decoration: underline;
+		color: var(--color-contrast);
+	}
+
+	a.active:hover {
+		color: var(--color-contrast-hover);
 	}
 </style>

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-	import { HTTPStatus } from "@/Lib";
 	import { ref, watch } from "vue";
 	import VueMarkdown from "vue-markdown-render";
 
@@ -16,7 +15,7 @@
 				method: "GET"
 			});
 
-			if (response.status === HTTPStatus.OK) {
+			if (response.ok) {
 				markdown.value = await response.text();
 			}
 		},

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-	import { onMounted, ref, watch } from "vue";
+	import { onMounted, onUnmounted, ref, watch } from "vue";
 	import { MdEditor } from "md-editor-v3";
 	import "md-editor-v3/lib/style.css";
 	import VueMarkdown from "vue-markdown-render";
@@ -11,10 +11,23 @@
 	const selected_post = ref<Post>();
 
 	const unsaved_changes = ref<boolean>(false);
+	const dark_mode = ref<boolean>(
+		window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
+	);
 
 	onMounted(async () => {
+		addEventListener("beforeunload", on_leave_page);
+		window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", on_theme_change);
+
 		await get_posts();
 		unsaved_changes.value = false;
+	});
+
+	onUnmounted(() => {
+		removeEventListener("beforeunload", on_leave_page);
+		window
+			.matchMedia("(prefers-color-scheme: dark)")
+			.removeEventListener("change", on_theme_change);
 	});
 
 	watch(posts, (posts) => {
@@ -30,6 +43,17 @@
 		},
 		{ deep: true }
 	);
+
+	function on_theme_change() {
+		dark_mode.value =
+			window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+	}
+
+	function on_leave_page(event: BeforeUnloadEvent) {
+		if (unsaved_changes.value) {
+			event.preventDefault();
+		}
+	}
 
 	async function get_posts() {
 		const response = await api_call<Post[]>("GET", "posts");
@@ -120,6 +144,7 @@
 					'quote',
 					'image'
 				]"
+				:theme="dark_mode ? 'dark' : 'light'"
 				:tab-width="4"
 				:preview="false"
 				@on-save="save_post"
@@ -138,10 +163,27 @@
 
 	#post-select {
 		font-size: 1em;
+
+		border-radius: 0.125em;
+
+		background-color: var(--color-contrast);
+
+		border: unset;
+
+		color: var(--color-background);
 	}
 
-	select.disabled {
-		filter: opacity(50%);
+	#post-select:focus {
+		outline: unset;
+	}
+
+	#post-select > option {
+		color: var(--color-text);
+		background-color: var(--color-background);
+	}
+
+	#post-select.disabled {
+		color: var(--color-text-disabled);
 
 		cursor: help;
 	}
@@ -168,7 +210,7 @@
 		pointer-events: none;
 		border-radius: 0.125em;
 		box-shadow: 0 0.25rem 0.5rem 0 rgba(0, 0, 0, 0.2);
-		background-color: white;
+		background-color: var(--color-background);
 		z-index: 10;
 		padding: 0.5em;
 		transform: translateY(-1em);
@@ -233,16 +275,15 @@
 		text-wrap: wrap;
 		overflow-wrap: anywhere;
 	}
+</style>
 
-	@media screen and (max-width: 66em) {
-		#content {
-			display: block;
-			overflow: unset;
-			position: unset;
-		}
-
-		#content > * {
-			position: unset;
-		}
+<style>
+	.md-editor {
+		--md-bk-color: var(--color-background) !important;
+		--md-color: var(--color-text) !important;
+		--md-scrollbar-bg-color: unset;
+		--md-scrollbar-thumb-color: var(--color-text);
+		--md-scrollbar-thumb-hover-color: var(--color-text-hover);
+		--md-scrollbar-thumb-active-color: var(--color-on);
 	}
 </style>

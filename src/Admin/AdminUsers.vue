@@ -1,7 +1,8 @@
 <script setup lang="ts">
 	import { onMounted, ref } from "vue";
 	import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-	import { faFloppyDisk, faTrash } from "@fortawesome/free-solid-svg-icons";
+	import { faPlus } from "@fortawesome/free-solid-svg-icons";
+	import { faFloppyDisk, faTrashCan } from "@fortawesome/free-regular-svg-icons";
 
 	import BaseButton from "@/components/BaseButton.vue";
 	import BaseSlider from "@/components/BaseSlider.vue";
@@ -98,18 +99,26 @@
 <template>
 	<div id="container">
 		<h1>Users</h1>
-		<div id="add-user">
+		<div id="add-user-wrapper">
 			<div id="user-exists-error" v-if="user_exists_error">
 				User with same username already exists
 			</div>
-			<div id="add-user-inputs">
-				<input v-model="add_user_name" placeholder="username" @keydown.enter="add_user()" />
-				<input v-model="add_user_password" placeholder="password" @keydown.enter="add_user()" />
-				<BaseButton @click="add_user()">add</BaseButton>
+			<div id="add-user">
+				<div id="add-user-inputs">
+					<span class="input-wrapper"
+						><span>username:</span
+						><input type="text" v-model="add_user_name" @keydown.enter="add_user()"
+					/></span>
+					<span class="input-wrapper"
+						><span>password:</span
+						><input type="text" v-model="add_user_password" @keydown.enter="add_user()"
+					/></span>
+				</div>
+				<BaseButton @click="add_user()"><FontAwesomeIcon :icon="faPlus" /></BaseButton>
 			</div>
 		</div>
 		<table id="users">
-			<tr class="header">
+			<tr class="bar">
 				<th>UID</th>
 				<th>Name</th>
 				<th>password</th>
@@ -143,7 +152,6 @@
 					<div class="cell">
 						<BaseButton
 							:disabled="user.name === 'admin' && Global.user.value?.uid !== user.uid"
-							class="button"
 							@click="modify_user(user)"
 						>
 							<FontAwesomeIcon :icon="faFloppyDisk" />
@@ -153,11 +161,11 @@
 				<th>
 					<div class="cell">
 						<BaseButton
-							class="button"
 							:disabled="user.name === 'admin' || user.uid === Global.user.value?.uid"
 							@click="delete_user(user)"
-							><FontAwesomeIcon :icon="faTrash"
-						/></BaseButton>
+						>
+							<FontAwesomeIcon :icon="faTrashCan" />
+						</BaseButton>
 					</div>
 				</th>
 			</tr>
@@ -175,45 +183,55 @@
 		gap: 0.25em;
 	}
 
-	#add-user {
+	#add-user-wrapper {
 		display: flex;
 		flex-direction: column;
 
-		gap: 0.25em;
+		gap: 0.5em;
 
 		font-size: 1em;
 	}
 
+	#add-user {
+		display: flex;
+	}
+
 	#user-exists-error {
-		color: red;
+		color: var(--color-error);
 	}
 
 	#add-user-inputs {
 		display: flex;
-		gap: 0.25em;
+		gap: 1em;
 	}
 
-	#add-user-inputs > input {
-		font-size: inherit;
+	.input-wrapper {
+		display: inline-flex;
+		align-items: baseline;
+		gap: 0.5em;
+	}
+
+	input[type="text"] {
+		width: 10em;
 	}
 
 	#users {
 		width: 100%;
 	}
 
-	tr.header * {
-		font-weight: bolder;
+	tr.bar * {
+		font-weight: 600;
 
-		background-color: black;
-		color: white;
+		background-color: var(--color-text);
+		color: var(--color-background);
 	}
 
 	tr.content:nth-of-type(2n) {
-		background-color: hsl(0, 0%, 90%);
+		background-color: var(--color-off-disabled);
 	}
 
 	tr.content:nth-of-type(2n + 1) {
-		background-color: hsl(0, 0%, 80%);
+		background-color: var(--color-off-hover);
 	}
 
 	th {
@@ -230,13 +248,5 @@
 
 	th input[type="text"] {
 		flex: 1;
-	}
-
-	tr.content input[type="text"] {
-		font-size: 0.67em;
-	}
-
-	.content .button {
-		background-color: transparent;
 	}
 </style>

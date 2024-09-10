@@ -29,18 +29,18 @@
 
 		background-color: var(--color-off);
 
-		transition:
-			background-color 0.2s ease,
-			filter 0.2s ease;
+		transition: background-color 0.2s ease;
 
-		border-radius: 50cqb;
+		border-radius: 50cqh;
+
+		box-shadow: 0 0 0.5em -0.25em inset var(--vt-c-black-dark-dark);
 	}
 
 	#wrapper.disabled {
 		background-color: var(--color-off-disabled);
 	}
 	#wrapper.active.disabled {
-		background-color: var(--color-active-disabled);
+		background-color: var(--color-on-disabled);
 	}
 
 	#wrapper:not(.disabled) {
@@ -48,14 +48,14 @@
 	}
 
 	#wrapper.active {
-		background-color: var(--color-active);
+		background-color: var(--color-on);
 	}
 
 	#wrapper:not(.disabled):hover {
 		background-color: var(--color-off-hover);
 	}
 	#wrapper.active:not(.disabled):hover {
-		background-color: var(--color-active-hover);
+		background-color: var(--color-on-hover);
 	}
 
 	#slider {
@@ -78,7 +78,7 @@
 
 		border-radius: 50%;
 
-		background-color: white;
+		background-color: var(--color-background);
 
 		transition-property: margin, transform;
 		transition-duration: 0.2s;

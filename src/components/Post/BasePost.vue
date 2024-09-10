@@ -2,7 +2,7 @@
 	import { onMounted, ref } from "vue";
 	import VueMarkdown from "vue-markdown-render";
 	import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-	import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+	import { faPaperPlane } from "@fortawesome/free-regular-svg-icons";
 
 	import BaseComment from "./BaseComment.vue";
 	import BaseButton from "../BaseButton.vue";
@@ -61,27 +61,31 @@
 <template>
 	<template v-if="content !== undefined">
 		<VueMarkdown id="content" :source="content.content" />
-		<h2>Fragen</h2>
-		<div
-			id="comment-input"
-			v-show="
-				!comments.some((comment) => comment.uid === Global.user.value?.uid) &&
-				content.date === format_date(today)
-			"
-		>
-			<textarea v-model="comment_input_text" placeholder="Frage einsenden" />
-			<BaseButton @click="send_comment"><FontAwesomeIcon :icon="faPaperPlane" /> Senden</BaseButton>
-		</div>
-		<div id="comments">
-			<BaseComment
-				v-for="(comment, i_comment) of comments"
-				:key="comment.cid"
-				:comment="comment"
-				:pid="content.pid"
-				@answer="(new_comment) => (comments[i_comment] = new_comment)"
-				@delete="get_comments()"
-			/>
-		</div>
+		<template v-if="comments.length > 0 || content.date === format_date(today)">
+			<h2>Fragen</h2>
+			<div
+				id="comment-input"
+				v-show="
+					!comments.some((comment) => comment.uid === Global.user.value?.uid) &&
+					content.date === format_date(today)
+				"
+			>
+				<textarea v-model="comment_input_text" placeholder="Frage einsenden" />
+				<BaseButton id="send-button" @click="send_comment"
+					><FontAwesomeIcon :icon="faPaperPlane"
+				/></BaseButton>
+			</div>
+			<div id="comments">
+				<BaseComment
+					v-for="(comment, i_comment) of comments"
+					:key="comment.cid"
+					:comment="comment"
+					:pid="content.pid"
+					@answer="(new_comment) => (comments[i_comment] = new_comment)"
+					@delete="get_comments()"
+				/>
+			</div>
+		</template>
 	</template>
 </template>
 
@@ -96,14 +100,17 @@
 	}
 
 	#comment-input {
-		display: flex;
-		gap: 0.25em;
+		width: 100%;
 
-		flex-direction: row;
+		display: flex;
+
+		align-items: center;
 	}
 
 	#comment-input > textarea {
-		flex: 1;
+		width: 100%;
+
+		min-height: 4em;
 
 		font-family: Signika;
 		font-size: inherit;
