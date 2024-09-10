@@ -1,7 +1,7 @@
 :root {
 	--vt-c-white: hsl(0, 0%, 90%);
 	--vt-c-white-light: hsl(0, 0%, 100%);
-	--vt-c-white-dark: hsl(0, 0%, 80%);
+	--vt-c-white-dark: hsl(0, 0%, 60%);
 
 	--vt-c-black: hsl(0, 0%, 5%);
 	--vt-c-black-light: hsl(0, 0%, 10%);
@@ -61,8 +61,8 @@
 /* semantic color variables for this project */
 :root {
 	--color-text: var(--vt-c-darkgray);
-	--color-text-hover: var(--vt-c-darkgray-dark);
-	--color-text-disabled: var(--vt-c-darkgray-light);
+	--color-text-hover: var(--vt-c-darkgray-light);
+	--color-text-disabled: var(--vt-c-darkgray-dark);
 
 	--color-background: var(--vt-c-white);
 	--color-background-hover: var(--vt-c-white-dark);
@@ -88,8 +88,8 @@
 @media (prefers-color-scheme: dark) {
 	:root {
 		--color-text: var(--vt-c-white);
-		--color-text-hover: var(--vt-c-white-dark);
-		--color-text-disabled: var(--vt-c-white-light);
+		--color-text-hover: var(--vt-c-white-light);
+		--color-text-disabled: var(--vt-c-white-dark);
 
 		--color-background: var(--vt-c-black);
 		--color-background-hover: var(--vt-c-black-dark);
@@ -103,6 +103,8 @@
 		--color-off-disabled: var(--vt-c-darkgray-dark);
 
 		--color-error: var(--vt-c-red);
+		--color-error-hover: var(--vt-c-red-light);
+		--color-error-disabled: var(--vt-c-dark);
 
 		--color-accent: var(--vt-c-red);
 		--color-accent-hover: var(--vt-c-red-light);

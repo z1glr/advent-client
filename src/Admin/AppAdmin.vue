@@ -5,11 +5,13 @@
 	import AdminPosts from "./AdminPosts.vue";
 	import AdminComments from "./AdminComments.vue";
 	import AdminUsers from "./AdminUsers.vue";
+	import AdminFiles from "./AdminFiles.vue";
 
 	import Global from "@/Global";
 
 	enum State {
 		Posts,
+		Files,
 		Comments,
 		Users
 	}
@@ -33,6 +35,9 @@
 			<a :class="{ active: window_state === State.Posts }" @click="window_state = State.Posts"
 				>Posts</a
 			>
+			<a :class="{ active: window_state === State.Files }" @click="window_state = State.Files"
+				>Files</a
+			>
 			<a :class="{ active: window_state === State.Comments }" @click="window_state = State.Comments"
 				>Comments</a
 			>
@@ -42,6 +47,7 @@
 		</template>
 
 		<AdminPosts v-if="window_state === State.Posts" />
+		<AdminFiles v-else-if="window_state === State.Files" />
 		<AdminComments v-else-if="window_state === State.Comments" />
 		<AdminUsers v-else-if="window_state === State.Users" />
 	</AppLayout>
