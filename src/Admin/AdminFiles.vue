@@ -1,5 +1,5 @@
 <script setup lang="ts">
-	import { FEATURES } from "vuefinder/dist/features.js";
+	import { FEATURES } from "vuefinder/dist/features";
 </script>
 
 <template>
