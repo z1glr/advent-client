@@ -118,57 +118,61 @@
 			</div>
 		</div>
 		<table id="users">
-			<tr class="bar">
-				<th>UID</th>
-				<th>Name</th>
-				<th>password</th>
-				<th>Admin</th>
-				<th>Submit</th>
-				<th>Delete</th>
-			</tr>
-			<tr class="content" v-for="user of users" :key="user.uid">
-				<th>{{ user.uid }}</th>
-				<th>{{ user.name }}</th>
-				<th>
-					<div class="cell">
-						<input
-							v-model="user.password"
-							:disabled="user.name === 'admin' && Global.user.value?.uid !== user.uid"
-							type="text"
-							placeholder="new password"
-						/>
-					</div>
-				</th>
-				<th>
-					<div class="cell">
-						<BaseSlider
-							class="slider"
-							:disabled="user.name === 'admin' || user.uid === Global.user.value?.uid"
-							v-model="user.admin"
-						/>
-					</div>
-				</th>
-				<th>
-					<div class="cell">
-						<BaseButton
-							:disabled="user.name === 'admin' && Global.user.value?.uid !== user.uid"
-							@click="modify_user(user)"
-						>
-							<FontAwesomeIcon :icon="faFloppyDisk" />
-						</BaseButton>
-					</div>
-				</th>
-				<th>
-					<div class="cell">
-						<BaseButton
-							:disabled="user.name === 'admin' || user.uid === Global.user.value?.uid"
-							@click="delete_user(user)"
-						>
-							<FontAwesomeIcon :icon="faTrashCan" />
-						</BaseButton>
-					</div>
-				</th>
-			</tr>
+			<thead>
+				<tr class="bar">
+					<th>UID</th>
+					<th>Name</th>
+					<th>password</th>
+					<th>Admin</th>
+					<th>Submit</th>
+					<th>Delete</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="content" v-for="user of users" :key="user.uid">
+					<th>{{ user.uid }}</th>
+					<th>{{ user.name }}</th>
+					<th>
+						<div class="cell">
+							<input
+								v-model="user.password"
+								:disabled="user.name === 'admin' && Global.user.value?.uid !== user.uid"
+								type="text"
+								placeholder="new password"
+							/>
+						</div>
+					</th>
+					<th>
+						<div class="cell">
+							<BaseSlider
+								class="slider"
+								:disabled="user.name === 'admin' || user.uid === Global.user.value?.uid"
+								v-model="user.admin"
+							/>
+						</div>
+					</th>
+					<th>
+						<div class="cell">
+							<BaseButton
+								:disabled="user.name === 'admin' && Global.user.value?.uid !== user.uid"
+								@click="modify_user(user)"
+							>
+								<FontAwesomeIcon :icon="faFloppyDisk" />
+							</BaseButton>
+						</div>
+					</th>
+					<th>
+						<div class="cell">
+							<BaseButton
+								:disabled="user.name === 'admin' || user.uid === Global.user.value?.uid"
+								@click="delete_user(user)"
+							>
+								<FontAwesomeIcon :icon="faTrashCan" />
+							</BaseButton>
+						</div>
+					</th>
+				</tr>
+			</tbody>
 		</table>
 	</div>
 </template>

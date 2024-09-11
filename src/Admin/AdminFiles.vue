@@ -32,18 +32,6 @@
 		height: 100%;
 	}
 
-	.vuefinder:deep(.stroke-sky-500),
-	:deep(.vuefinder__rename-modal__icon),
-	:deep(.vuefinder__delete-modal__icon) {
-		stroke: var(--color-contrast) !important;
-	}
-
-	.vuefinder:deep(.fill-sky-500),
-	:deep(.vuefinder__rename-modal__icon),
-	:deep(.vuefinder__delete-modal__icon) {
-		fill: var(--color-contrast) !important;
-	}
-
 	:deep(.vuefinder__main__container) {
 		height: 100%;
 
@@ -58,7 +46,59 @@
 		display: none !important;
 	}
 
-	:deep(.vuefinder__breadcrumb__container),
+	/* main-container */
+	:deep(.vuefinder__main__container),
+	:deep(.vuefinder__context-menu) {
+		color: var(--color-text) !important;
+
+		background-color: var(--color-background-disabled) !important;
+
+		border: unset;
+	}
+
+	/* icons */
+	.vuefinder:deep(.stroke-sky-500),
+	:deep(.vuefinder__rename-modal__icon),
+	:deep(.vuefinder__delete-modal__icon) {
+		stroke: var(--color-contrast) !important;
+	}
+
+	.vuefinder:deep(.fill-sky-500),
+	:deep(.vuefinder__rename-modal__icon),
+	:deep(.vuefinder__delete-modal__icon) {
+		fill: var(--color-contrast) !important;
+	}
+
+	/* list-view */
+	:deep(.vf-sort-button),
+	:deep(.vuefinder__explorer__header) {
+		background-color: var(--color-contrast-disabled) !important;
+		border: none !important;
+	}
+
+	/* treeview */
+	:deep(.vuefinder__treeview__container) {
+		background-color: var(--color-background-disabled) !important;
+	}
+
+	:deep(.vuefinder__treeview__container *) {
+		color: var(--color-text);
+	}
+
+	/* accent-items-color */
+	:deep(.vuefinder__modal-layout__content input),
+	:deep(.vf-explorer-selected),
+	:deep(.vf-item-grid:hover),
+	:deep(.vuefinder__explorer__item-list-content:hover),
+	:deep(.vuefinder__breadcrumb__container *),
+	:deep(.vuefinder__treeview__pinned-toggle *),
+	:deep(.vuefinder__treestorageitem__header *),
+	:deep(.vf-sort-button *),
+	:deep(.vuefinder__explorer__header *) {
+		color: var(--vt-c-white-light) !important;
+	}
+
+	:deep(.vuefinder__modal-layout__content input),
 	:deep(.vuefinder__treestorageitem__header),
 	:deep(.vuefinder__treeview__pinned-toggle) {
 		background-color: var(--color-contrast) !important;
@@ -66,65 +106,79 @@
 		border: none !important;
 	}
 
-	:deep(.dark\:hover\:bg-gray-700:hover),
-	:deep(.vuefinder__breadcrumb__go-up--active:hover) {
-		background-color: var(--color-contrast-hover) !important;
-	}
-
-	:deep(.vf-sort-button),
-	:deep(.vuefinder__explorer__header),
-	:deep(.vuefinder__breadcrumb__toggle-tree--active) {
-		background-color: var(--color-contrast-disabled) !important;
+	:deep(.vuefinder__treeview__scroll) {
 		border: none !important;
 	}
 
-	:deep(.vuefinder__treeview__pin-icon),
-	:deep(.vuefinder__item--pinned) {
-		color: var(--color-accent) !important;
-	}
-
-	:deep(.vf-toolbar-icon-disabled) {
-		stroke: var(--color-text-disabled) !important;
-	}
-
-	:deep(.vuefinder__main__container),
-	:deep(.vuefinder__context-menu),
-	:deep(.vuefinder__breadcrumb__search-container) {
-		color: var(--color-text) !important;
-
-		background-color: var(--color-background-disabled) !important;
-	}
-
-	:deep(.vuefinder__treesubfolderlist__item-content:hover) {
-		color: var(--color-text-hover) !important;
-	}
-
-	:deep(.vuefinder__treeview__container),
-	:deep(.dark\:hover\:bg-gray-800:hover),
-	:deep(.vuefinder__breadcrumb__item:hover) {
-		background-color: var(--color-background) !important;
-	}
-
-	:deep(.vf-item-grid) {
-		border-radius: 0.25em;
+	/* nav-bar */
+	:deep(.vuefinder__breadcrumb__container) {
+		background-color: var(--color-contrast) !important;
 
 		border: none;
 	}
 
-	:deep(.vf-item-grid:hover) {
-		background-color: var(--color-on) !important;
+	:deep(.vuefinder__breadcrumb__container svg:hover) {
+		background-color: var(--color-contrast-hover) !important;
 	}
 
-	:deep(div.vf-explorer-selected:first-of-type) {
-		background-color: var(--color-on-disabled) !important;
+	:deep(.vuefinder__breadcrumb__toggle-tree--active) {
+		background-color: var(--color-contrast-disabled) !important;
+	}
+
+	/* edit-bar */
+	:deep(.vuefinder__toolbar) {
+		background-color: var(--color-background-disabled);
 	}
 
 	:deep(.vf-toolbar-icon) {
 		stroke: var(--color-text) !important;
 	}
 
-	:deep(.vuefinder__treeview__scroll) {
-		border: none !important;
+	:deep(.vf-toolbar-icon:hover) {
+		stroke: var(--color-text-hover) !important;
+	}
+
+	:deep(.vf-toolbar-icon-disabled) {
+		stroke: var(--color-off) !important;
+	}
+
+	/* search-bar */
+	:deep(.vuefinder__breadcrumb__search-container) {
+		background-color: var(--color-background-disabled) !important;
+	}
+
+	:deep(.vuefinder__breadcrumb__search-container *) {
+		color: var(--vt-c-black) !important;
+	}
+
+	:deep(.vuefinder__breadcrumb__search-container svg:hover),
+	:deep(
+			.vuefinder__breadcrumb__search-container span:hover:not(.vuefinder__breadcrumb__separator)
+		) {
+		background-color: var(--color-background-hover) !important;
+	}
+
+	/* :deep(.hover\:bg-gray-700:hover) {
+		background-color: var(--color-contrast-hover) !important;
+	} */
+
+	/* :deep(.dark\:hover\:bg-gray-800:hover) {
+		background-color: var(--color-background) !important;
+	} */
+
+	:deep(.vuefinder__item) {
+		border: none;
+
+		border-radius: 0.25em;
+	}
+
+	:deep(.vf-item-grid:hover),
+	:deep(.vf-item-list:hover) {
+		background-color: var(--color-on-hover) !important;
+	}
+
+	:deep(div.vf-explorer-selected.vuefinder__item) {
+		background-color: var(--color-on) !important;
 	}
 
 	/* Popup */
@@ -139,20 +193,21 @@
 		background-color: var(--color-background) !important;
 	}
 
-	:deep(.vuefinder__modal-layout__content *) {
+	:deep(.vuefinder__modal-layout__content > div > :not(:first-child) *),
+	:deep(.vf-toolbar-icon) {
 		color: var(--color-text) !important;
 	}
 
-	:deep(.vuefinder__modal-layout__content input) {
-		background-color: var(--color-contrast-disabled) !important;
-	}
-
 	:deep(.vuefinder__modal-layout__content input::placeholder) {
-		color: var(--color-text-disabled);
+		color: var(--vt-c-white);
 	}
 
 	:deep(.vuefinder__modal-header__icon-container) {
 		background-color: var(--color-accent) !important;
+	}
+
+	:deep(.vuefinder__modal-header__icon-container > svg) {
+		stroke: var(--vt-c-white-light) !important;
 	}
 
 	:deep(.vf-btn-primary) {
@@ -168,6 +223,8 @@
 		background-color: var(--color-background) !important;
 
 		border-color: var(--color-text) !important;
+
+		color: var(--color-text) !important;
 	}
 
 	:deep(.vf-btn-secondary:hover) {
@@ -188,17 +245,12 @@
 		color: var(--color-error) !important;
 	}
 
-	@media (prefers-color-scheme: dark) {
-		:deep(.dark\:text-neutral-300),
-		:deep(.vuefinder__breadcrumb__separator),
-		:deep(.vuefinder__breadcrumb__item),
-		:deep(.vuefinder__treestorageitem__header),
-		:deep(.vuefinder__treeview__pinned-toggle),
-		:deep(.vuefinder__folder-loader-indicator--minus),
-		:deep(.vuefinder__folder-indicator--minus),
-		:deep(.vuefinder__treestorageitem__icon),
-		:deep(.vuefinder__treestorageitem__info) {
-			color: var(--color-text) !important;
-		}
-	}
+	/* :deep(.vuefinder__treestorageitem__header),
+	:deep(.vuefinder__treeview__pinned-toggle),
+	:deep(.vuefinder__folder-loader-indicator--minus),
+	:deep(.vuefinder__folder-indicator--minus),
+	:deep(.vuefinder__treestorageitem__icon),
+	:deep(.vuefinder__treestorageitem__info) {
+		color: var(--vt-c-white) !important;
+	} */
 </style>
