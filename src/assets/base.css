@@ -122,6 +122,10 @@
 	font-weight: normal;
 }
 
+strong {
+	font-weight: bolder;
+}
+
 body {
 	color: var(--color-text);
 	background: var(--color-background);

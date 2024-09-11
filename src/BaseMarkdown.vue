@@ -9,8 +9,12 @@
 
 <template>
 	<AppLayout>
-		<BaseMarkdown v-if="typeof content_url === 'string'" :url="content_url" />
+		<BaseMarkdown v-if="typeof content_url === 'string'" id="markdown" :url="content_url" />
 	</AppLayout>
 </template>
 
-<style scoped></style>
+<style scoped>
+	#markdown:deep(h1:first-of-type) {
+		text-align: center;
+	}
+</style>
