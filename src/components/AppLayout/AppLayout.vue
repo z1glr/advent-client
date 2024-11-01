@@ -4,6 +4,10 @@
 	import { api_call } from "@/Lib";
 	import Global, { type User } from "@/Global";
 
+	const emit = defineEmits<{
+		logout: [];
+	}>();
+
 	const footer_sites = {
 		/* eslint-disable @typescript-eslint/naming-convention */
 		About: "/About",
@@ -21,6 +25,7 @@
 
 		if (res.ok) {
 			Global.user.value = res.data;
+			emit("logout");
 		}
 	}
 </script>
