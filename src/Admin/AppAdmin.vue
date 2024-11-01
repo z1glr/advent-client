@@ -22,8 +22,6 @@
 	watch(
 		() => Global.user.value?.logged_in,
 		() => {
-			console.debug(Global.user.value, Global.user.value?.logged_in, Global.user.value?.admin);
-
 			if (!Global.user.value || !Global.user.value.logged_in || !Global.user.value.admin) {
 				window_state.value = State.Login;
 			} else {

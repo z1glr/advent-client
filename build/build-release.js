@@ -1,9 +1,9 @@
 import esbuild from "esbuild";
 
 await esbuild.build({
-	entryPoints: ["build-scripts/release.ts"],
-	outfile: "build-scripts/release.cjs",
-	tsconfig: "build-scripts/tsconfig.json",
+	entryPoints: ["build/release.ts"],
+	outfile: "build/release.cjs",
+	tsconfig: "build/tsconfig.json",
 	platform: "node",
 	bundle: true
 });
