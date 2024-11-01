@@ -32,7 +32,7 @@
 	async function add_answer(cid: number) {
 		const response = await api_call<Comment>(
 			"POST",
-			"comment/answer",
+			"comments/answer",
 			{ cid },
 			{ answer: answer_user_input.value }
 		);
@@ -44,7 +44,7 @@
 
 	async function delete_comment(cid: number) {
 		if (window.confirm("Do you really want to delete this comment?")) {
-			const response = await api_call<Post>("DELETE", "comment", { cid });
+			const response = await api_call<Post>("DELETE", "comments", { cid });
 
 			if (response.ok) {
 				emit("delete");

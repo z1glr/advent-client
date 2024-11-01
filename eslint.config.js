@@ -62,8 +62,8 @@ export default [
 	},
 	{
 		ignores: [
-			"build-scripts/*.js",
-			"build-scripts/*.cjs",
+			"build/*.js",
+			"build/*.cjs",
 			"dist/*",
 			"eslint.config.js",
 			"vite.config.ts"

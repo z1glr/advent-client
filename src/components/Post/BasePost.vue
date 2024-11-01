@@ -42,7 +42,7 @@
 		if (comment_input_text.value.length > 0 && !!content.value) {
 			const response = await api_call<Comment[]>(
 				"POST",
-				"comment",
+				"comments",
 				{ pid: content.value.pid },
 				{
 					text: comment_input_text.value

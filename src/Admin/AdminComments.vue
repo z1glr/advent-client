@@ -35,7 +35,7 @@
 	function show_comment(comment: Comment, post: Post): boolean {
 		return (
 			comment.pid === post.pid &&
-			(!show_only_unanswered.value || comment.answer === null || comment.answer === "")
+			(!show_only_unanswered.value || comment.answer === undefined || comment.answer === "")
 		);
 	}
 </script>
@@ -47,7 +47,7 @@
 		Show only comments without answer
 	</div>
 	<template v-for="post in posts" :key="post.pid">
-		<div v-if="comments.filter((comment) => show_comment(comment, post)).length !== 0" class="post">
+		<div v-if="comments.some((comment) => show_comment(comment, post))" class="post">
 			<VueMarkdown class="post_teaser" :source="post.content" />
 			<template v-for="(comment, i_comment) of comments" :key="comment.cid">
 				<BaseComment

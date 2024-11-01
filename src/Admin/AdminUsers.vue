@@ -42,11 +42,11 @@
 	}
 
 	async function add_user(
-		user: string = add_user_name.value,
+		name: string = add_user_name.value,
 		password: string = add_user_password.value
 	) {
-		if (user.length > 0 && password.length > 0) {
-			const response = await api_call<User[]>("POST", "user", undefined, { user, password });
+		if (name.length > 0 && password.length > 0) {
+			const response = await api_call<User[]>("POST", "users", undefined, { name, password });
 
 			if (response.ok) {
 				create_password();
@@ -65,8 +65,8 @@
 	async function modify_user(user: PasswordUser) {
 		if (window.confirm(`Modify user '${user.name}'?`)) {
 			const response = await api_call<User[]>(
-				"POST",
-				"user/modify",
+				"PATCH",
+				"users",
 				{ uid: user.uid },
 				{ password: user.password, admin: user.admin }
 			);
@@ -80,7 +80,7 @@
 	async function delete_user(user: PasswordUser) {
 		if (!(user.name === "admin" || user.uid === Global.user.value?.uid)) {
 			if (window.confirm(`Delete user '${user.name}'?`)) {
-				const response = await api_call<User[]>("DELETE", "user", { uid: user.uid });
+				const response = await api_call<User[]>("DELETE", "users", { uid: user.uid });
 
 				if (response.ok) {
 					store_users(response.data);

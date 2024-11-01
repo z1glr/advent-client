@@ -65,12 +65,11 @@
 	async function save_post() {
 		if (selected_post.value !== undefined) {
 			const response = await api_call(
-				"POST",
-				"post",
+				"PATCH",
+				"posts",
 				{ pid: selected_post.value.pid },
 				{
-					text: selected_post.value.content,
-					date: selected_post.value.date
+					content: selected_post.value.content
 				}
 			);
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 	import { onBeforeMount, ref } from "vue";
-	import Post from "./BasePost.vue";
+	import BasePost from "./BasePost.vue";
 	import { api_call, create_lcg_random, format_date, today } from "@/Lib";
 
 	interface Door {
@@ -60,7 +60,7 @@
 			{{ door.value }}
 		</div>
 	</div>
-	<Post v-if="active_day !== undefined" :pid="active_day.value" :key="active_day.value" />
+	<BasePost v-if="active_day !== undefined" :pid="active_day.value" :key="active_day.value" />
 </template>
 
 <style scoped>

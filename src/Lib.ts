@@ -63,21 +63,14 @@ export async function api_call<K extends object>(
 	no_401_reload?: boolean
 ): Promise<APICallResult<K>>;
 export async function api_call<K extends object>(
-	method: "POST",
+	method: "POST" | "DELETE" | "PATCH",
 	api: string,
 	params?: QueryParams,
 	body?: object,
 	no_401_reload?: boolean
 ): Promise<APICallResult<K>>;
 export async function api_call<K extends object>(
-	method: "DELETE",
-	api: string,
-	params?: QueryParams,
-	body?: object,
-	no_401_reload?: boolean
-): Promise<APICallResult<K>>;
-export async function api_call<K extends object>(
-	method: "GET" | "POST" | "DELETE",
+	method: "GET" | "POST" | "DELETE" | "PATCH",
 	api: string,
 	params?: QueryParams,
 	body_no_401_reload?: object | boolean,

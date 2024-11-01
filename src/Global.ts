@@ -35,6 +35,7 @@ const Global = new Globals();
 // initialize the user
 void (async () => {
 	const res = await api_call<User>("GET", "welcome");
+
 	if (res.ok) {
 		Global.user.value = res.data;
 	}

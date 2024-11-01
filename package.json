@@ -11,7 +11,7 @@
 		"build-only": "vite build",
 		"type-check": "vue-tsc --build --force",
 		"release": "run-s type-check release-build",
-		"release-build": "node build-scripts/build-release.js && node build-scripts/release.cjs",
+		"release-build": "node build/build-release.js && node build/release.cjs",
 		"lint": "eslint .",
 		"format-check": "prettier --check src/",
 		"format-write": "prettier --write src/",
