@@ -10,10 +10,10 @@
 	import Global from "@/Global";
 
 	enum State {
-		Posts,
-		Files,
-		Comments,
-		Users
+		"Posts" = 1,
+		"Files",
+		"Comments",
+		"Users"
 	}
 
 	const window_state = ref<State>(State.Posts);
