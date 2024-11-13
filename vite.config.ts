@@ -21,7 +21,7 @@ export default defineConfig({
 		vue(),
 	],
 	build: {
-		outDir: "../dist/build/client",
+	outDir: "../../dist/client",
 		emptyOutDir: true,
 		rollupOptions: {
 			input: {
